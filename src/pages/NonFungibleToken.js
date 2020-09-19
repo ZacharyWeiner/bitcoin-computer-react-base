@@ -1,10 +1,4 @@
 import React, {useState, useEffect} from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
 import {Button, Grid, TextField, Card} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
@@ -16,9 +10,7 @@ export default function NonFungibleToken() {
     const [url, setUrl] = useState('')
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
-    const [chainLink, setChainLink] = useState('')
     const [loading, setLoading] = useState(false) 
-    const [txID, setTXID] = useState('')
     const [tokens, setTokens] = useState([])
     const [revs, setRevs] = useState([])
     const [refresh, setRefresh] = useState(0)
@@ -60,6 +52,7 @@ export default function NonFungibleToken() {
     const sendToken = async (e) => {
       try{
         e.preventDefault()
+        setLoading(true)
         if(title === ''){
             alert("The title must not be empty")
             
@@ -75,32 +68,11 @@ export default function NonFungibleToken() {
             console.log(await computer.db.wallet.getBalance())
             const ExampleNFT = await FileUtilities.importFromPublic('/contracts/ExampleNFT.js')
             const token = await computer.new(ExampleNFT, [publicKey, title, description, url])
-            setTXID(token._id)
-            setChainLink(`https://test.whatsonchain.com/tx/${token._id.substring(0, token._id.length -  4)}`)
             console.log('Created token with id', token._id)
             
             
             console.log("Getting Balance of Smart Contract Deploy From Address Before Creating Token")
             console.log(await computer.db.wallet.getBalance())
-            //alert('Created token with id' +  txID)
-            //console.log('Attempting Transfer Token....')
-
-            // const nftComputer2 = new Computer({
-            //   seed: "noble canal morning large era tonight fox river disagree home spider material",
-            //   chain: "BSV", // BSV or BCH
-            //   network: "testnet", // testnet or livenet
-            //   path: "m/44'/2'/0'/0" // defaults to "m/44'/0'/0'/0"
-            // })
-            // console.log(nftComputer2.db.wallet.getPublicKey().toString())
-            // -> 021c90d468d6c46bd64b5bad57399220bb9fe0e8c2d2baf70f4e6a620daa5b2e20
-            // let  revs2 =   await nftComputer.getRevs(publicKey)
-            // console.log(revs2)
-            // //let addressToSend = nftComputer2.db.wallet.getPublicKey();
-            
-            // console.log(await token.sendTo('021c90d468d6c46bd64b5bad57399220bb9fe0e8c2d2baf70f4e6a620daa5b2e20'))
-
-            // console.log("Getting Balance of Smart Contract Deploy From Address After Creating Token")
-            // console.log(await nftComputer.db.wallet.getBalance())
         }
 
       } catch (err) {
@@ -110,7 +82,7 @@ export default function NonFungibleToken() {
           console.log(err)
         }
       }
-
+      setLoading(false)
     }
 
 
@@ -139,6 +111,7 @@ export default function NonFungibleToken() {
         },
       });
     const classes = useStyles()
+
   return (
     <div>
         <Card variant="outlined">
@@ -164,7 +137,7 @@ export default function NonFungibleToken() {
         </form>
         </Card>
         <Card variant="outlined">
-        {/* <Grid item xs={12}><h2>Find Tokens</h2> <Button variant='contained' color='primary' onClick={fetchTokens}> Get Revs</Button></Grid> */}
+            {loading && (<p>Loading...</p>)}
         <Grid item xs={12}>
             <Grid container>
             {tokens.map(token => {

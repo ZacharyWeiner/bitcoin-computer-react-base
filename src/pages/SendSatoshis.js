@@ -1,18 +1,13 @@
 import React, {useState, useEffect} from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
 import {Button, TextField, Card, Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
-import FileUtilities from "../utilities/FileUtils"
-import Typography from "material-ui/styles/typography";
+
+
 
 export default function SendSatoshis() {
    const [computer, setComputer] = useState(null)
+   const [balance, setBalance] = useState(0)
    const [sendTo, setSendTo] = useState('')
    const [amount, setAmount] = useState(0)
    const [chainLink, setChainLink] = useState('')
@@ -26,18 +21,30 @@ export default function SendSatoshis() {
        setAmount(e.target.value)
      }
    }
+   useEffect(() => {
+    const setUpComputer = async () =>{
+      const computer = new Computer({
+        seed: "noble canal morning large era tonight fox river disagree home spider material",
+        chain: "BSV", // BSV or BCH
+        network: "testnet" // testnet or livenet
+        //path: "m/44'/0'/0'/0" // defaults to "m/44'/0'/0'/0"
+      })
+      setComputer(computer)
+      setBalance(await computer.db.wallet.getBalance())
+  
+     console.log('async initializing the  default computer')
+    }
+    if(computer === null){
+      setUpComputer()
+       
+    }
+
+  }, [computer])
     const send = async (e) => {
       try{
         e.preventDefault()
         setLoading(true)
-       const computer = new Computer({
-          seed: "noble canal morning large era tonight fox river disagree home spider material",
-          chain: "BSV", // BSV or BCH
-          network: "testnet" // testnet or livenet
-          //path: "m/44'/0'/0'/0" // defaults to "m/44'/0'/0'/0"
-        })
-    
-       console.log('async initializing the  default computer')
+       
        const {db } = computer 
        const { wallet } = db
         const address = wallet.getAddress()
@@ -85,6 +92,7 @@ export default function SendSatoshis() {
   return (
   <div>
     <h1 className="center">Send Satoshis</h1>
+  <h4 className="center">Balance: {balance} satoshis</h4>
     
     <Grid container>
       <Grid xs={2} className="center"></Grid>

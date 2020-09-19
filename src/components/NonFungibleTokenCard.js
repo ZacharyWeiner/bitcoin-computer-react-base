@@ -1,12 +1,13 @@
-import React from 'react'
-import {Button, Grid, Card} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
-import Computer from 'bitcoin-computer'
+import React, {useState} from 'react'
+import {Button, Grid} from '@material-ui/core'
 
 function NonFungibleTokenCard({computer, token}){
+    const [loading, setLoading] = useState(false)
     const handleClick = async (e) =>{
+        setLoading(true)
         let prompt_response =  prompt("Enter The New Owners Address");
-        console.log(token.sendTo(prompt_response))
+        console.log(await token.sendTo(prompt_response))
+        setLoading(false)
     }
     return (
         <Grid item xs={3}>
@@ -14,6 +15,7 @@ function NonFungibleTokenCard({computer, token}){
             <p>{token.description}</p>
             <Button href={token.url}  >View</Button>
             <Button onClick={handleClick} variant='contained' color='secondary'>Send</Button>
+            {loading && (<p> Sending ... </p>)}
         </Grid>
     )
 }
