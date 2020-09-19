@@ -11,7 +11,7 @@ import {AppBar, Button, Link, Toolbar, Typography} from '@material-ui/core'
 
 export default function Home() {
     let history = useHistory();
-    history.push('/send-test')
+    history.push('/send-satoshis')
     const useStyles = makeStyles((theme) => ({
         '@global': {
           ul: {

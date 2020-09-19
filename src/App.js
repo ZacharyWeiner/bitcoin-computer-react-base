@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import Home from './pages/Home.js'
 import About from './pages/About.js'
-import SendTest from './pages/SendTest.js'
+import SendSatoshis from './pages/SendSatoshis.js'
+import NonFungibleToken from './pages/NonFungibleToken.js'
 import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Button, Toolbar, Typography} from '@material-ui/core'
 
@@ -67,14 +68,14 @@ export default function App() {
             Bitcoin-Computer React-Base-App
           </Typography>
           <nav>
-            <Button variant="button" color="textPrimary" href="/" className={classes.link}>
+            <Button variant="contained" color="primary" href="/" className={classes.link}>
               Home
             </Button>
-            <Button variant="button" color="textPrimary" href="/about" className={classes.link}>
-              About
+            <Button variant="contained" color="primary" href="/send-satoshis" className={classes.link}>
+              Send Satoshis
             </Button>
-            <Button variant="button" color="textPrimary" href="/send-test" className={classes.link}>
-              Support
+            <Button variant="contained" color="primary" href="/non-fungible-token" className={classes.link}>
+              Non Fungible Token
             </Button>
           </nav>
           <Button href="#" color="primary" variant="outlined" className={classes.link}>
@@ -89,8 +90,11 @@ export default function App() {
           <Route path="/about">
             <About />
           </Route>
-          <Route path="/send-test">
-            <SendTest />
+          <Route path="/send-satoshis">
+            <SendSatoshis />
+          </Route>
+          <Route path="/non-fungible-token">
+            <NonFungibleToken />
           </Route>
           <Route path="/">
             <Home />
