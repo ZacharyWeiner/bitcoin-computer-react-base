@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,10 +8,16 @@ import Home from './pages/Home.js'
 import About from './pages/About.js'
 import SendSatoshis from './pages/SendSatoshis.js'
 import NonFungibleToken from './pages/NonFungibleToken.js'
+import Voteables from './pages/Voteables.js'
+import RockPaperScisors from './pages/RockPaperScisors.js'
+import VoteableDetails from './pages/VoteableDetails.js'
+import LocalStorageConstants from './constants/LocalStorageConstants.js'
+import Login from './pages/Login'
 import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Button, Toolbar, Typography} from '@material-ui/core'
 
 export default function App() {
+  const [logged_in, setLoggedIn] = useState(false)
   const useStyles = makeStyles((theme) => ({
     '@global': {
       ul: {
@@ -58,7 +64,15 @@ export default function App() {
   }));
 
   const classes = useStyles();
+  const loggedIn = () => {
+    let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+    return (seed != null && seed.length > 20)
+  }
   
+  useEffect(() => {
+    setLoggedIn(loggedIn())
+  }, [])
+
   return (
     <Router>
       <div>
@@ -77,10 +91,23 @@ export default function App() {
             <Button variant="contained" color="primary" href="/non-fungible-token" className={classes.link}>
               Non Fungible Token
             </Button>
+            <Button variant="contained" color="primary" href="/rock-paper-scisors" className={classes.link}>
+              Basic Game
+            </Button>
+            <Button variant="contained" color="primary" href="/votables" className={classes.link}>
+              Votables
+            </Button>
           </nav>
-          <Button href="#" color="primary" variant="outlined" className={classes.link}>
+          {logged_in ? (
+            <Button href="#" color="primary" variant="outlined" className={classes.link}>
+              Logout
+            </Button>
+          ):(
+            <Button href="/login" color="primary" variant="outlined" className={classes.link}>
             Login
-          </Button>
+            </Button>
+          )}
+          
         </Toolbar>
       </AppBar>
 
@@ -95,6 +122,18 @@ export default function App() {
           </Route>
           <Route path="/non-fungible-token">
             <NonFungibleToken />
+          </Route>
+          <Route path="/rock-paper-scisors">
+            <RockPaperScisors />
+          </Route>
+          <Route path="/votables">
+            <Voteables />
+          </Route>
+          <Route path="/voteable/:id" >
+            <VoteableDetails />
+          </Route>
+          <Route path="/login" >
+            <Login />
           </Route>
           <Route path="/">
             <Home />
