@@ -1,19 +1,53 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   useHistory
 } from "react-router-dom";
-import { Button} from '@material-ui/core'
+import Computer from 'bitcoin-computer'
+import { Button, Grid, Card, TextField} from '@material-ui/core'
+import LocalStorageContants from './../constants/LocalStorageConstants'
 
-function Login() {
+function Login({computer, setComputer}) {
+  const [seed, setSeed] = useState('')
+  const [username, setUsername] = useState('')
+  let history = useHistory()
+
+  const handleChange = (e) => {
+      if(e.target.name === 'username_box'){
+        setUsername(e.target.value)
+        window.localStorage.setItem(LocalStorageContants.username, e.target.value)
+      } else {
+        let _seed = e.target.value 
+        window.localStorage.setItem(LocalStorageContants.seed, e.target.value)
+        setSeed(_seed)
+      }
+  }
+  const handleClick = (e) => {
+      e.preventDefault()
+      computer = new Computer({
+        seed: seed,
+        chain: "BSV", 
+        network: "testnet"
+      })
+      if(computer !== null){
+        history.push('home')
+      }
+  }
+  
   return (
-  <div>
-      Login Page
-      <br/>
-      <Button variant="contained" color="primary" href="/about">
-        Link To About
-      </Button>
-  </div>
-  )
+    <div>
+        <br/>
+        <h2>Login</h2>
+        <Grid container>
+        <Grid item xs={8}>
+        <Card>
+            <TextField fullWidth name='username_box' value={username} onChange={handleChange} helperText="Username" ></TextField>
+            <TextField fullWidth defaultValue={seed} onChange={handleChange} helperText="Seed Phrase" ></TextField>
+            <Button onClick={handleClick} color="primary" variant="contained"> Login </Button>
+        </Card>
+        </Grid>
+        </Grid>
+    </div>
+    )
 }
 
 export default Login

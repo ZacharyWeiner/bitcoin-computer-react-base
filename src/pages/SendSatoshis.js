@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 import {Button, TextField, Card, Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
+import LocalStorageConstants from './../constants/LocalStorageConstants'
 
 
 
 export default function SendSatoshis() {
+   const [address, setAddress] = useState('')
    const [computer, setComputer] = useState(null)
    const [balance, setBalance] = useState(0)
    const [sendTo, setSendTo] = useState('')
@@ -22,21 +24,21 @@ export default function SendSatoshis() {
      }
    }
    useEffect(() => {
-    const setUpComputer = async () =>{
-      const computer = new Computer({
-        seed: "noble canal morning large era tonight fox river disagree home spider material",
+    const setUpComputer = async (seed) =>{
+      const _computer = new Computer({
+        seed: seed,
         chain: "BSV", // BSV or BCH
         network: "testnet" // testnet or livenet
         //path: "m/44'/0'/0'/0" // defaults to "m/44'/0'/0'/0"
       })
-      setComputer(computer)
-      setBalance(await computer.db.wallet.getBalance())
-  
-     console.log('async initializing the  default computer')
+      setComputer(_computer)
+      setAddress(await _computer.db.wallet.getAddress().toString())
+      setBalance(await _computer.db.wallet.getBalance())
+      console.log('async initializing the  default computer')
     }
-    if(computer === null){
-      setUpComputer()
-       
+    let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+    if(seed && computer === null){
+      setUpComputer(seed)
     }
 
   }, [computer])
@@ -92,11 +94,12 @@ export default function SendSatoshis() {
   return (
   <div>
     <h1 className="center">Send Satoshis</h1>
-  <h4 className="center">Balance: {balance} satoshis</h4>
+    <h4 className="center">Address: {address} </h4>
+    <h4 className="center">Balance: {balance} satoshis</h4>
     
     <Grid container>
-      <Grid xs={2} className="center"></Grid>
-      <Grid xs={8} className="center">
+      <Grid item xs={2} className="center"></Grid>
+      <Grid item xs={8} className="center">
         <Card variant="outlined" className="center">
           <form onSubmit={send} >
             <h4 >Send {amount} Satoshis </h4>
@@ -112,7 +115,7 @@ export default function SendSatoshis() {
           </form>
         </Card>
       </Grid>
-      <Grid xs={2} className="center"></Grid>
+      <Grid item xs={2} className="center"></Grid>
     </Grid>
     <br/>
     <Grid container>

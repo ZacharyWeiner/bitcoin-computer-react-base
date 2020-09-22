@@ -4,9 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import FileUtilities from "../utilities/FileUtils"
 import NonFungibleTokenCard from './../components/NonFungibleTokenCard.js'
+import LocalStorageConstants from './../constants/LocalStorageConstants'
+import { useHistory } from "react-router-dom";
 
 export default function NonFungibleToken() {
     const [computer, setComputer] = useState(null)
+    const [address, setAddress] = useState('')
+    const [balance, setBalance] = useState('')
     const [url, setUrl] = useState('')
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
@@ -26,21 +30,28 @@ export default function NonFungibleToken() {
       }
 
       useEffect(() => {
-          const setUpComputer = async () =>{
+          const setUpComputer = async (seed) =>{
             const nftComputer = new Computer({
-                seed: "gap math bomb win rule kind exchange black quick buffalo open ripple",
+                seed: seed,
                 chain: "BSV", // BSV or BCH
                 network: "testnet", // testnet or livenet
                 path: "m/44'/1'/0'/0" // defaults to "m/44'/0'/0'/0"
                 })
                 setComputer(nftComputer)
+                let a = await nftComputer.db.wallet.getAddress().toString()
+                setAddress(a)
+                let b = await nftComputer.db.wallet.getBalance()
+                setBalance(b)
+                console.log('async initializing the  default computer')
           }
           const fetchRevs = async () => {
             setRevs(await computer.getRevs(computer.db.wallet.getPublicKey()))
             setTimeout(() => setRefresh(refresh + 1), 3500)
           }
-          if(computer === null){
-            setUpComputer()
+          let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+          if(!!seed & computer === null){
+            console.log(seed)
+            setUpComputer(seed)
              
           }
           if(computer !== null){
@@ -114,6 +125,8 @@ export default function NonFungibleToken() {
 
   return (
     <div>
+       <h4 className="center">Address: {address} </h4>
+       <h4 className="center">Balance: {balance} satoshis</h4>
         <Card variant="outlined">
         <Grid item xs={12}><h1>Non Fungible Token Example</h1></Grid>
         <form onSubmit={sendToken}>

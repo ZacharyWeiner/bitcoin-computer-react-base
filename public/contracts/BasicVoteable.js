@@ -1,27 +1,15 @@
-class BasicVoteable {
-    constructor(owners, description){
-        this.votes = {}
-        this._owners = owners
+class BasicVoteable{
+    constructor(publicKey, name, description){
+        this._owners = [publicKey]
+        this.name = name
+        this.voters = [publicKey]
         this.description = description 
-        this.result = "undecided"
+        this.votes = []
     }
     addVoter(pubKey){
-        this._owners.push(pubKey)
+        
     }
-    vote(pubKey, vote){
-        if (this.votes[pubKey] ==  null)
-            this.votes[pubKey] = vote
-            if(this.votes.length === this.voters.length){
-                let sum, votecount = 0
-                Object.keys(this.votes).forEach(function (key) { 
-                    sum += this.votes[key]
-                })
-                if((sum/votecount) > 0.5){
-                    this.result = "approved"
-                } else {
-                    this.result = "denied"
-                }
-                
-            }
-        }
+    vote(publicKey, vote){
+        this.votes.push(publicKey + ":" + vote)
     }
+}

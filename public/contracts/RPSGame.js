@@ -11,7 +11,8 @@ class RPSGame {
         this.game_queue[uuid] = {uuid: {"player_1": publicKey}}
     }
 
-    selectGame(publicKey, gameKey){
-
+    joinGame(publicKey, game_uuid){
+        let existingGame = this.game_queue[game_uuid]
+        existingGame['player_2'] = publicKey
     }
 }

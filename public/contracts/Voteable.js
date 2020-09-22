@@ -9,8 +9,11 @@ class Votable {
         this.voting_complete = false
         this.vote_result = null
         this.spend_complete = false
+        this.votable_money_ids = []
     }
+    addVoter(pubKey){
 
+    }
     vote(pubKey, vote){
         this.votes[pubKey] = vote
         if (this.votes.length === this._owners.length) {
@@ -19,6 +22,9 @@ class Votable {
     }
 
     fund(pubKey, satoshis){
+        //This should happen after 
+        //return a new object owned by recipient new VoteableMoney([this.recipient_address])
+        //add id of Votable money to Ids vm._id 
         this._amount = this._amount + satoshis
         if (this.reciepts[pubKey] > 0){
             this.reciepts[pubKey] = this.reciepts[pubKey] + satoshis

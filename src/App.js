@@ -2,8 +2,10 @@ import React, {useState, useEffect} from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route, 
+  useHistory
 } from "react-router-dom";
+import Computer from "bitcoin-computer"
 import Home from './pages/Home.js'
 import About from './pages/About.js'
 import SendSatoshis from './pages/SendSatoshis.js'
@@ -18,6 +20,8 @@ import {AppBar, Button, Toolbar, Typography} from '@material-ui/core'
 
 export default function App() {
   const [logged_in, setLoggedIn] = useState(false)
+  const [computer, setComputer] = useState(null)
+
   const useStyles = makeStyles((theme) => ({
     '@global': {
       ul: {
@@ -64,15 +68,36 @@ export default function App() {
   }));
 
   const classes = useStyles();
+  const history = useHistory()
   const loggedIn = () => {
     let seed = window.localStorage.getItem(LocalStorageConstants.seed)
     return (seed != null && seed.length > 20)
   }
+
+ 
+
   
   useEffect(() => {
+    const setUpComputer = async () => {
+      let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+      if(seed === null){return null}
+      let _computer  = new Computer({
+        seed: seed,
+        chain: "BSV", // BSV or BCH
+        network: "testnet", // testnet or livenet
+        path: "m/44'/0'/0'/0" // defaults to "m/44'/0'/0'/0"
+        })
+        setComputer(_computer)
+    }
     setLoggedIn(loggedIn())
+    if(loggedIn()){
+      setUpComputer()
+    }
   }, [])
-
+  const logout = ()=> {
+    window.localStorage.clear()
+    history.push('/home')
+  }
   return (
     <Router>
       <div>
@@ -96,10 +121,10 @@ export default function App() {
             </Button>
             <Button variant="contained" color="primary" href="/votables" className={classes.link}>
               Votables
-            </Button>
+            </Button> 
           </nav>
           {logged_in ? (
-            <Button href="#" color="primary" variant="outlined" className={classes.link}>
+            <Button onClick={logout} color="primary" variant="outlined" className={classes.link}>
               Logout
             </Button>
           ):(
