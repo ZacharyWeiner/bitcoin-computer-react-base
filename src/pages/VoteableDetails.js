@@ -23,12 +23,12 @@ function VoteableDetails(){
     const [lastRev, setLastRev] = useState(null)
     const { id } = useParams()
     useEffect(() =>{
-        const setUpComputer = async (seed) =>{
+        const setUpComputer = async (seed, path) =>{
             const nftComputer = new Computer({
                 seed: seed,
                 chain: "BSV", // BSV or BCH
                 network: "testnet", // testnet or livenet
-                path: "m/44'/0'/7'/0" // defaults to "m/44'/0'/0'/0"
+                path: path // defaults to "m/44'/0'/0'/0"
                 })
                 setComputer(nftComputer)
                 let a = await nftComputer.db.wallet.getAddress().toString()
@@ -47,9 +47,10 @@ function VoteableDetails(){
             }
         }
           let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+          let path = LocalStorageConstants.basic_votable_path
           if(!!seed & computer === null){
             console.log(seed)
-            setUpComputer(seed)
+            setUpComputer(seed, path)
           }
           if(computer !== null ){
             console.log("getting revs")
@@ -74,6 +75,12 @@ function VoteableDetails(){
             votes_ui =  voteable.votes.map((v) =>{ return <div key={v}>{v}</div> })
         }
         return votes_ui
+    }
+
+    function RenderVoteButtons(){
+        if(voteable && voteable.votes && voteable.votes.length > 0){
+
+        }
     }
     return(
     <div> 

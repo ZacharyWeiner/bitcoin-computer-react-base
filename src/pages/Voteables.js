@@ -30,12 +30,12 @@ export default function Voteables() {
         }
       }
       useEffect(() => {
-          const setUpComputer = async (seed) =>{
+          const setUpComputer = async (seed, path) =>{
             const nftComputer = new Computer({
                 seed: seed,
                 chain: "BSV", // BSV or BCH
                 network: "testnet", // testnet or livenet
-                path: "m/44'/0'/7'/0" // defaults to "m/44'/0'/0'/0"
+                path: path// defaults to "m/44'/0'/0'/0"
                 })
                 setComputer(nftComputer)
                 let a = await nftComputer.db.wallet.getAddress().toString()
@@ -49,9 +49,10 @@ export default function Voteables() {
             setTimeout(() => setRefresh(refresh + 1), 3500)
           }
           let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+          let path = LocalStorageConstants.basic_votable_path
           if(!!seed & computer === null){
             console.log(seed)
-            setUpComputer(seed)
+            setUpComputer(seed, path)
              
           }
           if(computer !== null){
@@ -119,7 +120,7 @@ export default function Voteables() {
        <h4 className="center">Address: {address} </h4>
        <h4 className="center">Balance: {balance} satoshis</h4>
         <Card variant="outlined">
-        <Grid item xs={12}><h1>Non Fungible Token Example</h1></Grid>
+        <Grid item xs={12}><h1>Voteables</h1></Grid>
         <form onSubmit={createVotable}>
             <Grid container> 
                 <Grid item xs={2}></Grid>
@@ -144,13 +145,17 @@ export default function Voteables() {
             {loading && (<p>Loading...</p>)}
         <Grid item xs={12}>
             <Grid container>
-            {tokens.map(token => {
+            {tokens !== null && tokens.map(token => {
+              if(token !== null){
                 return (
-                    <div>
-                        {token._id.toString()} {token.name.toString()} 
-                        <br/>{token.description.toString()}
+                    <div key={token._id.toString()}>
+                        {token._id.toString()} {token.name} 
+                        <br/>{token.description}
                       </div> 
                     )
+                }else{
+                  return (<div></div>)
+                }
             })}
             </Grid>
         </Grid>

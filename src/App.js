@@ -78,6 +78,7 @@ export default function App() {
 
   
   useEffect(() => {
+    
     const setUpComputer = async () => {
       let seed = window.localStorage.getItem(LocalStorageConstants.seed)
       if(seed === null){return null}
@@ -96,7 +97,6 @@ export default function App() {
   }, [])
   const logout = ()=> {
     window.localStorage.clear()
-    history.push('/home')
   }
   return (
     <Router>

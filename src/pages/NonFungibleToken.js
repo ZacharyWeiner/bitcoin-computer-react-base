@@ -18,6 +18,7 @@ export default function NonFungibleToken() {
     const [tokens, setTokens] = useState([])
     const [revs, setRevs] = useState([])
     const [refresh, setRefresh] = useState(0)
+  
 
     const handleBlur = async (e) => {
         if(e.target.name === 'title'){
@@ -30,13 +31,14 @@ export default function NonFungibleToken() {
       }
 
       useEffect(() => {
-          const setUpComputer = async (seed) =>{
+          const setUpComputer = async (seed, path) =>{
             const nftComputer = new Computer({
                 seed: seed,
                 chain: "BSV", // BSV or BCH
                 network: "testnet", // testnet or livenet
-                path: "m/44'/1'/0'/0" // defaults to "m/44'/0'/0'/0"
+                path:  path// defaults to "m/44'/0'/0'/0"
                 })
+               
                 setComputer(nftComputer)
                 let a = await nftComputer.db.wallet.getAddress().toString()
                 setAddress(a)
@@ -49,9 +51,10 @@ export default function NonFungibleToken() {
             setTimeout(() => setRefresh(refresh + 1), 3500)
           }
           let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+          let path = LocalStorageConstants.nft_path
           if(!!seed & computer === null){
             console.log(seed)
-            setUpComputer(seed)
+            setUpComputer(seed, path)
              
           }
           if(computer !== null){
@@ -91,6 +94,7 @@ export default function NonFungibleToken() {
           alert('You have to fund your wallet https://faucet.bitcoincloud.net/')
         else{
           console.log(err)
+          alert(err)
         }
       }
       setLoading(false)

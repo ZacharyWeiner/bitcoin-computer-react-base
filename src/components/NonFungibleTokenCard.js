@@ -5,7 +5,7 @@ function NonFungibleTokenCard({computer, token}){
     const [loading, setLoading] = useState(false)
     const handleClick = async (e) =>{
         setLoading(true)
-        let prompt_response =  prompt("Enter The New Owners Address");
+        let prompt_response =  prompt("Enter The New Owners Public Key");
         console.log(await token.sendTo(prompt_response))
         setLoading(false)
     }
