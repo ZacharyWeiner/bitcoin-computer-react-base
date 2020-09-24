@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import {Button} from '@material-ui/core'
 import Computer from 'bitcoin-computer'
-import LocalStorageConstants from './../constants/LocalStorageConstants'
+import * as Constants from './../constants/LocalStorageConstants'
 
 
 class Vote{
@@ -46,8 +46,8 @@ function VoteableDetails(){
                 setVoteable(await computer.sync(rev))
             }
         }
-          let seed = window.localStorage.getItem(LocalStorageConstants.seed)
-          let path = LocalStorageConstants.basic_votable_path
+          let seed = window.localStorage.getItem(Constants.SEED)
+          let path = Constants.BASIC_VOTEABLE_PATH
           if(!!seed & computer === null){
             console.log(seed)
             setUpComputer(seed, path)
@@ -78,9 +78,24 @@ function VoteableDetails(){
     }
 
     function RenderVoteButtons(){
-        if(voteable && voteable.votes && voteable.votes.length > 0){
-
-        }
+        if(voteable && voteable.votes){
+            let show_vote = true 
+            voteable.votes.map((v) => {
+                if(v.includes(publicKey)){
+                    show_vote = false
+                }
+            })
+            if(show_vote){
+                return(
+                    <div>
+                        <Button onClick={upVote} name="UpVote"> UpVote </Button> 
+                        <Button onClick={downVote} name="DownVote"> DownVote </Button>
+                    </div>
+                )
+            }else{
+                return("Already Voted")
+            }
+        } else {return "No Votes"}
     }
     return(
     <div> 
@@ -89,8 +104,7 @@ function VoteableDetails(){
         <div>Votable Details with id: {id}</div>
         <div>Votable Name: {voteable ? (voteable.name ) : ""}</div>
         <div>Description: {voteable ? (voteable.description ) : ""}</div>
-        <Button onClick={upVote} name="UpVote"> UpVote </Button> 
-        <Button onClick={downVote} name="DownVote"> DownVote </Button>
+        <RenderVoteButtons />
         <RenderVotes />
     </div>
     )

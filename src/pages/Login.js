@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import Computer from 'bitcoin-computer'
 import { Button, Grid, Card, TextField} from '@material-ui/core'
-import LocalStorageContants from './../constants/LocalStorageConstants'
+import * as Constants from './../constants/LocalStorageConstants'
 
 function Login({computer, setComputer}) {
   const [seed, setSeed] = useState('')
@@ -14,10 +14,10 @@ function Login({computer, setComputer}) {
   const handleChange = (e) => {
       if(e.target.name === 'username_box'){
         setUsername(e.target.value)
-        window.localStorage.setItem(LocalStorageContants.username, e.target.value)
+        window.localStorage.setItem(Constants.USERNAME, e.target.value)
       } else {
         let _seed = e.target.value 
-        window.localStorage.setItem(LocalStorageContants.seed, e.target.value)
+        window.localStorage.setItem(Constants.SEED, e.target.value)
         setSeed(_seed)
       }
   }

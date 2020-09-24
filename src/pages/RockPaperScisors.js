@@ -3,7 +3,7 @@ import {Button, Grid, TextField, Card} from '@material-ui/core'
 import Computer from 'bitcoin-computer'
 import FileUtilities from "../utilities/FileUtils"
 import UUID from '../utilities/UUID'
-import LocalStorageConstants from './../constants/LocalStorageConstants'
+import * as Constants from './../constants/LocalStorageConstants'
 
 function RockPaperScisors(){
     const [computer, setComputer] = useState(null)
@@ -13,21 +13,22 @@ function RockPaperScisors(){
 
     
     useEffect(() => {
-        const setUpComputer = async (seed) =>{
+        const setUpComputer = async (seed, path) =>{
           const _computer = new Computer({
             seed: seed,
             chain: "BSV", // BSV or BCH
-            network: "testnet" // testnet or livenet
-            //path: "m/44'/0'/0'/0" // defaults to "m/44'/0'/0'/0"
+            network: "testnet", // testnet or livenet
+            path: path // defaults to "m/44'/0'/0'/0"
           })
           setComputer(_computer)
           setAddress(await _computer.db.wallet.getAddress().toString())
           setBalance(await _computer.db.wallet.getBalance())
           console.log('async initializing the  default computer')
         }
-        let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+        let seed = window.localStorage.getItem(Constants.SEED)
+        let path = Constants.BASIC_GAME_PATH
         if(seed && computer === null){
-          setUpComputer(seed)
+          setUpComputer(seed, path)
         }
     
       }, [computer])

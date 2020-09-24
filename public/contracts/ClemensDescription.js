@@ -175,3 +175,32 @@ class RPS {
       this.moneyTokens.push(moneyTokens)
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if (this.votes[pubKey] ==  null)
+  this.votes[pubKey] = vote
+  if(this.votes.length === this.voters.length){
+      let sum, votecount = 0
+      Object.keys(this.votes).forEach(function (key) { 
+          sum += this.votes[key]
+      })
+      if((sum/votecount) > 0.5){
+          this.result = "approved"
+      } else {
+          this.result = "denied"
+      }
+      
+  }
+}

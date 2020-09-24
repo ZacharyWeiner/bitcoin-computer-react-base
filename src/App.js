@@ -13,8 +13,9 @@ import NonFungibleToken from './pages/NonFungibleToken.js'
 import Voteables from './pages/Voteables.js'
 import RockPaperScisors from './pages/RockPaperScisors.js'
 import VoteableDetails from './pages/VoteableDetails.js'
-import LocalStorageConstants from './constants/LocalStorageConstants.js'
+import * as Constants from './constants/LocalStorageConstants.js'
 import Login from './pages/Login'
+import CustomTokens from './pages/CustomTokens.js'
 import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Button, Toolbar, Typography} from '@material-ui/core'
 
@@ -70,7 +71,7 @@ export default function App() {
   const classes = useStyles();
   const history = useHistory()
   const loggedIn = () => {
-    let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+    let seed = window.localStorage.getItem(Constants.SEED)
     return (seed != null && seed.length > 20)
   }
 
@@ -80,7 +81,7 @@ export default function App() {
   useEffect(() => {
     
     const setUpComputer = async () => {
-      let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+      let seed = window.localStorage.getItem(Constants.SEED)
       if(seed === null){return null}
       let _computer  = new Computer({
         seed: seed,
@@ -112,6 +113,9 @@ export default function App() {
             </Button>
             <Button variant="contained" color="primary" href="/send-satoshis" className={classes.link}>
               Send Satoshis
+            </Button>
+            <Button variant="contained" color="primary" href="/tokens" className={classes.link}>
+              Tokens
             </Button>
             <Button variant="contained" color="primary" href="/non-fungible-token" className={classes.link}>
               Non Fungible Token
@@ -156,6 +160,9 @@ export default function App() {
           </Route>
           <Route path="/voteable/:id" >
             <VoteableDetails />
+          </Route>
+          <Route path="/tokens">
+            <CustomTokens objects={[]} />
           </Route>
           <Route path="/login" >
             <Login />

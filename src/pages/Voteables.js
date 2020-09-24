@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import FileUtilities from "../utilities/FileUtils"
 import NonFungibleTokenCard from './../components/NonFungibleTokenCard.js'
-import LocalStorageConstants from './../constants/LocalStorageConstants'
+import * as Constants from './../constants/LocalStorageConstants'
 import { useHistory } from "react-router-dom";
 
 export default function Voteables() {
@@ -48,8 +48,8 @@ export default function Voteables() {
             setRevs(await computer.getRevs(computer.db.wallet.getPublicKey()))
             setTimeout(() => setRefresh(refresh + 1), 3500)
           }
-          let seed = window.localStorage.getItem(LocalStorageConstants.seed)
-          let path = LocalStorageConstants.basic_votable_path
+          let seed = window.localStorage.getItem(Constants.SEED)
+          let path = Constants.BASIC_VOTEABLE_PATH
           if(!!seed & computer === null){
             console.log(seed)
             setUpComputer(seed, path)

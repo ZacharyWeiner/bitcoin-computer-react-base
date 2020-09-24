@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Button, TextField, Card, Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
-import LocalStorageConstants from './../constants/LocalStorageConstants'
+import * as Constants from './../constants/LocalStorageConstants'
 
 
 
@@ -36,7 +36,7 @@ export default function SendSatoshis() {
       setBalance(await _computer.db.wallet.getBalance())
       console.log('async initializing the  default computer')
     }
-    let seed = window.localStorage.getItem(LocalStorageConstants.seed)
+    let seed = window.localStorage.getItem(Constants.SEED)
     if(seed && computer === null){
       setUpComputer(seed)
     }

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import FileUtilities from "../utilities/FileUtils"
 import NonFungibleTokenCard from './../components/NonFungibleTokenCard.js'
-import LocalStorageConstants from './../constants/LocalStorageConstants'
+import * as Constants from './../constants/LocalStorageConstants'
 import { useHistory } from "react-router-dom";
 
 export default function NonFungibleToken() {
@@ -50,8 +50,8 @@ export default function NonFungibleToken() {
             setRevs(await computer.getRevs(computer.db.wallet.getPublicKey()))
             setTimeout(() => setRefresh(refresh + 1), 3500)
           }
-          let seed = window.localStorage.getItem(LocalStorageConstants.seed)
-          let path = LocalStorageConstants.nft_path
+          let seed = window.localStorage.getItem(Constants.SEED)
+          let path = Constants.NFT_PATH
           if(!!seed & computer === null){
             console.log(seed)
             setUpComputer(seed, path)
@@ -103,6 +103,7 @@ export default function NonFungibleToken() {
 
     useEffect(() => {
         const fetchNFTs = async () => {
+          
           setTokens(await Promise.all(revs.map(async rev => computer.sync(rev))))
         }
         fetchNFTs()
