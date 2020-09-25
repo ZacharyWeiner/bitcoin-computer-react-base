@@ -102,28 +102,28 @@ export default function App() {
   return (
     <Router>
       <div>
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+      <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Bitcoin-Computer React-Base-App
           </Typography>
           <nav>
-            <Button variant="contained" color="primary" href="/" className={classes.link}>
+            <Button variant="contained" color="default" href="/" className={classes.link}>
               Home
             </Button>
-            <Button variant="contained" color="primary" href="/send-satoshis" className={classes.link}>
+            <Button variant="contained" color="default" href="/send-satoshis" className={classes.link}>
               Send Satoshis
             </Button>
-            <Button variant="contained" color="primary" href="/tokens" className={classes.link}>
+            <Button variant="contained" color="default" href="/tokens" className={classes.link}>
               Tokens
             </Button>
-            <Button variant="contained" color="primary" href="/non-fungible-token" className={classes.link}>
+            <Button variant="contained" color="default" href="/non-fungible-token" className={classes.link}>
               Non Fungible Token
             </Button>
-            <Button variant="contained" color="primary" href="/rock-paper-scisors" className={classes.link}>
+            <Button variant="contained" color="default" href="/rock-paper-scisors" className={classes.link}>
               Basic Game
             </Button>
-            <Button variant="contained" color="primary" href="/votables" className={classes.link}>
+            <Button variant="contained" color="default" href="/votables" className={classes.link}>
               Votables
             </Button> 
           </nav>
