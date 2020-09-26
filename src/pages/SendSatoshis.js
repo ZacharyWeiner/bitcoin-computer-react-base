@@ -1,13 +1,40 @@
 import React, {useState, useEffect} from "react";
-import {Button, TextField, Card, Grid} from '@material-ui/core'
+import { Avatar, Box, Button, Grid, Card, Link, TextField, Typography, Container, CssBaseline } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants'
+import SendIcon from '@material-ui/icons/Send'
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  darkPaperLeft: {
+    padding: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'left',
+    backgroundColor: '#000', color: '#fff'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  }
+}));
 
 
 export default function SendSatoshis() {
-   const [address, setAddress] = useState('')
+   const [address, setAddress] = useState('Not Logged In')
    const [computer, setComputer] = useState(null)
    const [balance, setBalance] = useState(0)
    const [sendTo, setSendTo] = useState('')
@@ -64,6 +91,7 @@ export default function SendSatoshis() {
         setTXID(result)
         alert(`1000 Satoshis Sent To \n ${sendTo} \n Transaction ID: \n ${result}`)
         setChainLink(`https://test.whatsonchain.com/tx/${result}`)
+        setBalance(await computer.db.wallet.getBalance())
         
 
       } catch (err) {
@@ -76,90 +104,121 @@ export default function SendSatoshis() {
       setLoading(false)
 
     }
-    const useStyles = makeStyles({
-      root: {
-        minWidth: 275,
-      },
-      bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-      },
-      title: {
-        fontSize: 14,
-      },
-      pos: {
-        marginBottom: 12,
-      },
-    });
   const classes = useStyles()
   return (
-  <div>
+  <div style={{height:"100%"}}>
     <Grid container >
-      <Grid item xs={12} md={6} >
-      <h1 >Send Satoshis</h1>
-      <h5 className="center"> {balance} satoshis <br/> Address: <br/>{address} <br />for Public Key: <br />{publicKey}</h5>
-      <h2> How Do I Get Started? </h2>
-
-      <h4> How To Create An Account on Bitcoin </h4>
-      <p>To get started with Bitcoin and smart contracts, the first thing you need is an Account. On Bitcoin, you use a 12 word seed phrase a kind of a 'pssword' for your account. 
-        <br/><br />Use the button below to generate a new Account &amp; Seed Phrase.</p>
-      <p><Button variant="contained" color="primary" href="http://accounts.protoshi.com" target="_blank" rel="noopener noreferrer"> Get Your Passphrase Here </Button></p>
-      <h6> Write Down Your Seed Phrase. Your Seed is YOUR Responsibility. </h6>  
-      <h4> Get Some Bitcoin To Use In These Apps</h4>
+      <Grid item xs={12} md={6} className={ classes.darkPaperLeft}>
+        <Typography component="h1" variant="h3">
+          How Do I Get Started? 
+        </Typography>
+        <br />
+        <Typography component="p"  className={classes.submit}>
+          To get started with Bitcoin and smart contracts the first thing you need is an Account.<br />
+          On Bitcoin, you use a 12 word seed phrase a kind of a usernam and password for your account. <br/>
+          Your seed can be used in any application, not just this one. <br/>
+          Any Coins, Tokens, Game Results or Votes that you create in this application can be used in any other Bitcoin application. 
+          This principal is the foundation of data ownership. This application does NOT own your data. You do. And, you can bring it with you where ever you like. 
+        </Typography>
+        <h4> <span className="script big-number">1.</span>If You Dont Have A Seed Phrase To Use On The Test Network </h4>
         
-        <p>Now that you have an Account, we need to fill it with some Bitcoin. <br/>To make this demo free, this website runs on top of bitcoin's test network. </p>
+          <Button variant="contained" color="primary" href="http://accounts.protoshi.com" target="_blank" rel="noopener noreferrer"> Get Your Seed Passphrase Here </Button>
+        
+        <h5> Write Down Your Seed Phrase. Your Seed is YOUR Responsibility. </h5> 
+
+        <h4>  <span className="script big-number">2.</span>Login To This App</h4>
+        <Button variant="contained" color="secondary" href="/login" target="_blank" rel="noopener noreferrer"> Login </Button>
+        <br />
+        <h4>  <span className="script big-number">3.</span>Get Some Bitcoin To Use In These Apps</h4>
+        <p>Now that you have an Account, we need to fill it with some Bitcoin. 
+          <br/>To make this demo free, this website runs on top of bitcoin's test network. 
+        </p>
+        <p> 
+          Your Copy Your Address, and paste it in the text box on the page that launches when you click the button below<br/>
+          Address: {address}
+        </p>
+        <Button variant="contained" color="primary" href="https://faucet.bitcoincloud.net" target="_blank" rel="noopener noreferrer"> Get Your Free Test Bitcoin Here </Button>
+        
       </Grid>
+      {/* Begin Right Side Form  */}
       <Grid align='center' item xs={12} md={6} style={{paddingTop:"125px"}}>
-        <Grid container>
-        <Grid item xs={2} className="center"></Grid>
-        <Grid item xs={8} className="center">
-          <Card variant="outlined" className="center">
-            <form onSubmit={send} >
-              <h4 >Send {amount} Satoshis </h4>
-              <TextField name="amount" defaultValue={amount}  onBlur={handleBlur} className={classes.root} fullWidth/>
-              <h4> To Address:</h4>
-              <div>
-                <TextField name="sendToAddress" defaultValue={sendTo}  onBlur={handleBlur} className={classes.root} fullWidth/>
-              </div>
-              <br/>
-              <Button variant="contained" color="primary"  type="submit" >
-                Send Satoshis With Bitcoin Computer 
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <SendIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Send Satoshis
+            </Typography>
+            <Typography component="p" variant='p'>
+              {balance} satoshis availble 
+              <br />At your address:
+              <br />
+              {address}
+            </Typography>
+            <form className={classes.form} noValidate  onSubmit={send}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="sendToAddress"
+                label="Send To Address"
+                name="sendToAddress"
+                defaultValue={sendTo}  onBlur={handleBlur}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Amount"
+                type="number"
+                id="amount"
+                name="amount" 
+                defaultValue={sendTo}  
+                onBlur={handleBlur}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Send Satoshis
               </Button>
             </form>
-          </Card>
-        </Grid>
-        <Grid item xs={2} className="center"></Grid>
-      </Grid>
-      <br/>
-      <Grid container>
-      <Grid item xs={2} className="center"></Grid>
-        <Grid item xs={8}>
-        {loading === true && (
-          <Grid xs={12}>
-          <h3>Loading...</h3>
+          </div>
+        </Container>
+        <Grid container>
+          <Grid item xs={2} className="center"></Grid>
+            <Grid item xs={8}>
+              {loading === true && (
+                <Grid xs={12}>
+                <h3>Loading...</h3>
+                </Grid>
+              )}
+              <br/>
+              {chainLink !== '' && (
+                <Card>
+                  <h5>Transaction ID:</h5>
+                  <br/>
+                  {txID}
+                  <br/>
+                  <br/>
+                  <Button href={chainLink} target="_blank" variant="contained" color="secondary">
+                    Find This Transaction On Chain
+                  </Button>
+                </Card>
+              )}
+            </Grid>
+            <Grid item xs={2} className="center"></Grid>
           </Grid>
-        )}
-          {chainLink !== '' && (
-            <Card>
-              <h5>Transaction ID:</h5>
-              <br/>
-              {txID}
-              <br/>
-              <br/>
-              <Button href={chainLink} target="_blank" variant="contained" color="secondary">
-                Find This Transaction On Chain
-              </Button>
-            </Card>
-          )}
         </Grid>
-        <Grid item xs={2} className="center"></Grid>
-      </Grid>
-      </Grid>
+        {/* End Right Side Form  */}
     </Grid>
-  
-
-   
   </div>
   )
 }
