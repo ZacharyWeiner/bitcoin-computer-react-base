@@ -15,6 +15,7 @@ export default function SendSatoshis() {
    const [chainLink, setChainLink] = useState('')
    const [loading, setLoading] = useState(false) 
    const [txID, setTXID] = useState('')
+   const [publicKey, setPublicKey] = useState('')
 
    const handleBlur = async (e) => {
      if(e.target.name === 'sendToAddress'){
@@ -34,6 +35,7 @@ export default function SendSatoshis() {
       setComputer(_computer)
       setAddress(await _computer.db.wallet.getAddress().toString())
       setBalance(await _computer.db.wallet.getBalance())
+      setPublicKey(_computer.db.wallet.getPublicKey().toString())
       console.log('async initializing the  default computer')
     }
     let seed = window.localStorage.getItem(Constants.SEED)
@@ -93,54 +95,71 @@ export default function SendSatoshis() {
   const classes = useStyles()
   return (
   <div>
-    <h1 className="center">Send Satoshis</h1>
-    <h4 className="center">Address: {address} </h4>
-    <h4 className="center">Balance: {balance} satoshis</h4>
-    
-    <Grid container>
-      <Grid item xs={2} className="center"></Grid>
-      <Grid item xs={8} className="center">
-        <Card variant="outlined" className="center">
-          <form onSubmit={send} >
-            <h4 >Send {amount} Satoshis </h4>
-            <TextField name="amount" defaultValue={amount}  onBlur={handleBlur} className={classes.root} fullWidth/>
-            <h4> To Address:</h4>
-            <div>
-              <TextField name="sendToAddress" defaultValue={sendTo}  onBlur={handleBlur} className={classes.root} fullWidth/>
-            </div>
-            <br/>
-            <Button variant="contained" color="primary"  type="submit" >
-              Send Satoshis With Bitcoin Computer 
-            </Button>
-          </form>
-        </Card>
+    <Grid container >
+      <Grid item xs={12} md={6} >
+      <h1 >Send Satoshis</h1>
+      <h5 className="center"> {balance} satoshis <br/> Address: <br/>{address} <br />for Public Key: <br />{publicKey}</h5>
+      <h2> How Do I Get Started? </h2>
+
+      <h4> How To Create An Account on Bitcoin </h4>
+      <p>To get started with Bitcoin and smart contracts, the first thing you need is an Account. On Bitcoin, you use a 12 word seed phrase a kind of a 'pssword' for your account. 
+        <br/><br />Use the button below to generate a new Account &amp; Seed Phrase.</p>
+      <p><Button variant="contained" color="primary" href="http://accounts.protoshi.com" target="_blank" rel="noopener noreferrer"> Get Your Passphrase Here </Button></p>
+      <h6> Write Down Your Seed Phrase. Your Seed is YOUR Responsibility. </h6>  
+      <h4> Get Some Bitcoin To Use In These Apps</h4>
+        
+        <p>Now that you have an Account, we need to fill it with some Bitcoin. <br/>To make this demo free, this website runs on top of bitcoin's test network. </p>
       </Grid>
-      <Grid item xs={2} className="center"></Grid>
-    </Grid>
-    <br/>
-    <Grid container>
-    <Grid item xs={2} className="center"></Grid>
-      <Grid item xs={8}>
-      {loading === true && (
-         <Grid xs={12}>
-        <h3>Loading...</h3>
-        </Grid>
-      )}
-        {chainLink !== '' && (
-          <Card>
-            <h5>Transaction ID:</h5>
-            <br/>
-            {txID}
-            <br/>
-            <br/>
-            <Button href={chainLink} target="_blank" variant="contained" color="secondary">
-              Find This Transaction On Chain
-            </Button>
+      <Grid align='center' item xs={12} md={6} style={{paddingTop:"125px"}}>
+        <Grid container>
+        <Grid item xs={2} className="center"></Grid>
+        <Grid item xs={8} className="center">
+          <Card variant="outlined" className="center">
+            <form onSubmit={send} >
+              <h4 >Send {amount} Satoshis </h4>
+              <TextField name="amount" defaultValue={amount}  onBlur={handleBlur} className={classes.root} fullWidth/>
+              <h4> To Address:</h4>
+              <div>
+                <TextField name="sendToAddress" defaultValue={sendTo}  onBlur={handleBlur} className={classes.root} fullWidth/>
+              </div>
+              <br/>
+              <Button variant="contained" color="primary"  type="submit" >
+                Send Satoshis With Bitcoin Computer 
+              </Button>
+            </form>
           </Card>
-        )}
+        </Grid>
+        <Grid item xs={2} className="center"></Grid>
       </Grid>
+      <br/>
+      <Grid container>
       <Grid item xs={2} className="center"></Grid>
+        <Grid item xs={8}>
+        {loading === true && (
+          <Grid xs={12}>
+          <h3>Loading...</h3>
+          </Grid>
+        )}
+          {chainLink !== '' && (
+            <Card>
+              <h5>Transaction ID:</h5>
+              <br/>
+              {txID}
+              <br/>
+              <br/>
+              <Button href={chainLink} target="_blank" variant="contained" color="secondary">
+                Find This Transaction On Chain
+              </Button>
+            </Card>
+          )}
+        </Grid>
+        <Grid item xs={2} className="center"></Grid>
+      </Grid>
+      </Grid>
     </Grid>
+  
+
+   
   </div>
   )
 }

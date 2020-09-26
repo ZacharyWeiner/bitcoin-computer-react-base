@@ -43,6 +43,7 @@ export default function App() {
     link: {
       margin: theme.spacing(1, 1.5),
     },
+    whiteLink:{color: '#fff', outlineColor:'#fffff'},
     heroContent: {
       padding: theme.spacing(8, 0, 6),
     },
@@ -89,15 +90,19 @@ export default function App() {
         network: "testnet", // testnet or livenet
         path: "m/44'/0'/0'/0" // defaults to "m/44'/0'/0'/0"
         })
+        if(_computer){
+          setLoggedIn(true)
+        }
         setComputer(_computer)
     }
-    setLoggedIn(loggedIn())
-    if(loggedIn()){
+    let _loggedIn = loggedIn()
+    if(_loggedIn && computer === null){
       setUpComputer()
     }
   }, [])
   const logout = ()=> {
     window.localStorage.clear()
+    setLoggedIn(false)
   }
   return (
     <Router>
@@ -128,11 +133,11 @@ export default function App() {
             </Button> 
           </nav>
           {logged_in ? (
-            <Button onClick={logout} color="primary" variant="outlined" className={classes.link}>
+            <Button onClick={logout}  variant="outlined" className={classes.link, classes.whiteLink}>
               Logout
             </Button>
           ):(
-            <Button href="/login" color="primary" variant="outlined" className={classes.link}>
+            <Button href="/login" variant="outlined" className={classes.link, classes.whiteLink}>
             Login
             </Button>
           )}
@@ -165,7 +170,7 @@ export default function App() {
             <CustomTokens objects={[]} />
           </Route>
           <Route path="/login" >
-            <Login />
+            <Login setLoggedIn={setLoggedIn} />
           </Route>
           <Route path="/">
             <Home />
