@@ -13,17 +13,17 @@ function AddressDetails({computer, address, publicKey, balance}){
     })
     return(<div>
         <Grid container align='center'>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={2}>
                 <Card>
                     <LocalAtmIcon fontSize="large"/> <Typography variant='h5' control='p'>{balance} </Typography> <Typography  control='p' variant='body1'>Satoshis</Typography>
                 </Card>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
                 <Card>
                     <AccountBalanceWalletIcon fontSize="large" /><Typography variant='h5' control='p'>{address}</Typography> <Typography control='p' variant='body1'> Address </Typography>
                  </Card>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
                 <Card>
                 <VpnKeyIcon fontSize="large" /> <Typography variant='h5' control='p'>{publicKey}</Typography> <Typography  control='p' variant='body1'>Public Key</Typography>
                 </Card>

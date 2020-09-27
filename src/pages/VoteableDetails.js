@@ -126,7 +126,7 @@ function VoteableDetails(){
     function RenderVotes(){
         let votes_ui = null
         if(voteable && voteable.votes && voteable.votes.length > 0){
-            votes_ui =  voteable.votes.map((v) =>{ return <Card key={v}><Typography className={classes.paper} variant='h6' control='h6' >{v}</Typography></Card> })
+            votes_ui =  voteable.votes.map((v) =>{ return <Card key={v}><Typography className={classes.paper} variant='body2' control='p' >{v}</Typography></Card> })
         }
         return votes_ui
     }
@@ -199,22 +199,41 @@ function VoteableDetails(){
     return(
     <div> 
         <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
-        <Card styles={{padding:'12px'}}> 
-            <Grid container align='center'> 
-                <Grid item xs={12} style={{paddingTop:'48px'}}>
-                    <Typography control='h1' variant='h1' >{voteable ? (voteable.name ) : ""}</Typography>
-                    <div>Votable Details At txID: {id}</div>
+        <Grid container> 
+        <Grid item md={6} style={{backgroundColor:"#000", color:'#fff'}}>
+            <h1 align="center" className="script big-head">The Contract</h1>
+            <h3 align="" ><span className="script" style={{padding:'8px'}}>1.</span> Record Your Vote</h3>
+            <p>Now that you have a voteable / proposal you can send your thumbs up or thumbs down vote to be stored on the blockchain for eternity.
+            </p>
+            <h3 align="" ><span className="script" style={{padding:'8px'}}>2.</span> Add Voters</h3>
+            <p>In the most basic version of a voting application the creator of the vote or proposal can add any number of voters to the contract.
+            </p>
+            <p>Once a voter has been added to the contract they can also add new voters to the contract. 
+            </p>
+            <small>This is just for demonstration purposes and should not be used in production. Remeber you can create your own public / private keys so in production if anyone were allwed to vote, someone could add their own vote multiple tiem from different public keys. </small>
+
+        </Grid>
+        <Grid item md={6}>
+            <br />
+            <Card styles={{padding:'12px'}}> 
+                <Grid container align='center'> 
+                    <Grid item xs={12} style={{paddingTop:'48px'}}>
+                        <Typography control='h1' variant='h1' >{voteable ? (voteable.name ) : ""}</Typography>
+                        <div>Votable Details At txID: {id}</div>
+                    </Grid>
+                    <Grid item xs={12} style={{paddingTop:'48px'}}>
+                        <Typography control='h6' variant='h6' >Description: <br/> {voteable ? (voteable.description ) : ""}</Typography><br/>
+                        <Button variant='contained' color='secondary' size='large' onClick={handleClick}  startIcon={<PersonAddIcon />}>Add A Voter</Button><span style={{padding:"24px"}}></span>
+                        <Button variant='contained' color='primary' size='large' href={chainLink()}  startIcon={<VisibilityIcon />}>View on Chain</Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} style={{paddingTop:'48px'}}>
-                    <Typography control='h6' variant='h6' >Description: <br/> {voteable ? (voteable.description ) : ""}</Typography><br/>
-                    <Button variant='contained' color='secondary' size='large' onClick={handleClick}  startIcon={<PersonAddIcon />}>Add A Voter</Button><span style={{padding:"24px"}}></span>
-                    <Button variant='contained' color='primary' href={chainLink()}  startIcon={<VisibilityIcon />}>View on Chain</Button>
-                </Grid>
-            </Grid>
-        </Card>
+            </Card>
+            <RenderVoteButtons styles={{margin:'12px'}}/>
+            <RenderVotes styles={{margin:'12px'}}/>
+        </Grid>
+        </Grid>
         <br/>
-        <RenderVoteButtons styles={{margin:'12px'}}/>
-        <RenderVotes styles={{margin:'12px'}}/>
+        
     </div>
     )
 

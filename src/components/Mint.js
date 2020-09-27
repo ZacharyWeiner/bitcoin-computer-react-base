@@ -57,10 +57,10 @@ function Mint({computer}){
         setCreating(false)
     }   
     const classes = useStyles()
-    return(<div> 
-        <Container component="main" maxWidth="xs">
+    return(<div align='center'> 
+        <Container component="main" maxWidth="xs" >
           <CssBaseline />
-          <div className={classes.paper}>
+          <div className={classes.paper} >
             <Avatar className={classes.avatar}>
               <SendIcon />
             </Avatar>

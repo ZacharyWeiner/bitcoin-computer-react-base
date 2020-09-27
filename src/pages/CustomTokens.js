@@ -64,10 +64,10 @@ function CustomToken({_objects})
         <div>
           <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
           <Grid container> 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4} align='center'>
               <Mint computer={computer}></Mint>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item md={8}>
               <Grid container>
                 {objects && Object.values(groupByRoot(objects)).map((o) => 
                 <TokenWallet key={o[0]._id} tokens={o} computer={computer} />

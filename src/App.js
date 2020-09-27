@@ -110,7 +110,7 @@ export default function App() {
       <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Bitcoin-Computer React-Base-App
+            Bitcoin-Computer Examples
           </Typography>
           <nav>
             <Button variant="contained" color="default" href="/" className={classes.link}>
@@ -120,7 +120,7 @@ export default function App() {
               Send Satoshis
             </Button>
             <Button variant="contained" color="default" href="/tokens" className={classes.link}>
-              Tokens
+              Coins &amp; Wallets
             </Button>
             <Button variant="contained" color="default" href="/non-fungible-token" className={classes.link}>
               Non Fungible Token
