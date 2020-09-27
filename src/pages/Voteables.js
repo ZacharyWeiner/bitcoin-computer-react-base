@@ -213,11 +213,11 @@ export default function Voteables() {
             {tokens !== null && tokens.map(token => {
               if(token !== null){
                 return (
-                    <Grid item xs={4}>
-                    <Card key={token._id.toString()} className={classes.paper}>
+                    <Grid item xs={4} key={token._id.toString()}>
+                    <Card  className={classes.paper}>
                         <Typography control='h3' variant='h5' >{token.name}</Typography>
                         <br/>
-                        <Typography control='p' variant='p' >{token.description}</Typography>
+                        <Typography control='p' variant='body1' >{token.description}</Typography>
                         <br/>
                         <Button href={`/voteable/${token._id.toString()}`}> View Details</Button>
                       </Card> 

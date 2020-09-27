@@ -15,17 +15,17 @@ function AddressDetails({computer, address, publicKey, balance}){
         <Grid container align='center'>
             <Grid item xs={2}>
                 <Card>
-                    <LocalAtmIcon fontSize="large"/> <Typography variant='h5' control='p'>{balance} </Typography> <Typography variant='small' control='p'>Satoshis</Typography>
+                    <LocalAtmIcon fontSize="large"/> <Typography variant='h5' control='p'>{balance} </Typography> <Typography  control='p' variant='body1'>Satoshis</Typography>
                 </Card>
             </Grid>
             <Grid item xs={4}>
                 <Card>
-                    <AccountBalanceWalletIcon fontSize="large" /><Typography variant='h5' control='p'>{address}</Typography> <Typography variant='small' control='p'> Address </Typography>
+                    <AccountBalanceWalletIcon fontSize="large" /><Typography variant='h5' control='p'>{address}</Typography> <Typography control='p' variant='body1'> Address </Typography>
                  </Card>
             </Grid>
             <Grid item xs={6}>
                 <Card>
-                <VpnKeyIcon fontSize="large" /> <Typography variant='h5' control='p'>{publicKey}</Typography> <Typography variant='small' control='p'>Public Key</Typography>
+                <VpnKeyIcon fontSize="large" /> <Typography variant='h5' control='p'>{publicKey}</Typography> <Typography  control='p' variant='body1'>Public Key</Typography>
                 </Card>
             </Grid>
         </Grid>

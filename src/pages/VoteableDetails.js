@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import {Button, Card, Grid, Typography} from '@material-ui/core'
+import {Button, Card, CardContent, Container, Grid, Typography} from '@material-ui/core'
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants'
 import AddressDetails from './../components/AddressDetails.js'
 import SendIcon from '@material-ui/icons/Send'
-
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 class Vote{
     constructor(pubKey, vote){
@@ -62,7 +65,17 @@ function VoteableDetails(){
     const [balance, setBalance] = useState(0)
     const [voteable, setVoteable] = useState(null)
     const [lastRev, setLastRev] = useState(null)
+    const [loading, setLoading] = useState(false)
     const { id } = useParams()
+    
+    const handleClick = async (e) =>{
+        setLoading(true)
+        let prompt_response =  prompt("Enter The New Owners Public Key");
+        if (prompt_response.length > 0 ){
+            console.log(await voteable.addVoter(prompt_response))
+        }
+        setLoading(false)
+    }
     useEffect(() =>{
         const setUpComputer = async (seed, path) =>{
             const nftComputer = new Computer({
@@ -128,10 +141,34 @@ function VoteableDetails(){
             })
             if(show_vote){
                 return(
-                    <div>
-                        <Button color='primary' variant='contained' onClick={upVote} name="UpVote"> UpVote </Button> 
-                        <Button color='secondary' variant='contained' onClick={downVote} name="DownVote"> DownVote </Button>
-                    </div>
+                    <Container component="main" maxWidth="md">
+                    <Card align='center'>
+                        <CardContent>
+                        {/* <Button color='primary' variant='contained' onClick={upVote} name="UpVote"> UpVote </Button>  */}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            startIcon={<ThumbUpIcon />}
+                            onClick={upVote}
+                            name="UpVote"
+                        >
+                            UpVote
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            size="large"
+                            startIcon={<ThumbDownIcon />}
+                            onClick={downVote}
+                            name="DownVote"
+                        >
+                            DownVote
+                        </Button>
+                        {/* <Button color='secondary' variant='contained' onClick={downVote} name="DownVote"> DownVote </Button> */}
+                        </CardContent> 
+                    </Card>
+                    </Container>
                 )
             }else{
                 return(<Typography className={classes.paper} variant='h6' control='h6' styles={{margin:'12px'}}>You Have Already Voted</Typography>)
@@ -139,6 +176,24 @@ function VoteableDetails(){
         } else {return (<Typography className={classes.paper} variant='h6' control='h6' styles={{margin:'12px'}}>No Votes Yet</Typography>)}
     }
 
+    function linkID(){
+        return id.split(':')[0]
+    }
+    function chainLink(){
+       return  `https://test.whatsonchain.com/tx/${linkID()}`
+    }
+
+    function RenderVoters(){
+        if(voteable){
+            let _voters = []
+            voteable.voters.map((v) => {
+                return (_voters.push(<div key={v}>{v}</div>))
+            })
+            return _voters
+        }else{
+            return (<div>Loading...</div>)
+        }
+    }
    
     const classes = useStyles()
     return(
@@ -148,14 +203,16 @@ function VoteableDetails(){
             <Grid container align='center'> 
                 <Grid item xs={12} style={{paddingTop:'48px'}}>
                     <Typography control='h1' variant='h1' >{voteable ? (voteable.name ) : ""}</Typography>
-                    <div>Votable Details with id: {id}</div>
+                    <div>Votable Details At txID: {id}</div>
                 </Grid>
                 <Grid item xs={12} style={{paddingTop:'48px'}}>
-                <Typography control='h6' variant='h6' >Description: <br/> {voteable ? (voteable.description ) : ""}</Typography>
-                
+                    <Typography control='h6' variant='h6' >Description: <br/> {voteable ? (voteable.description ) : ""}</Typography><br/>
+                    <Button variant='contained' color='secondary' size='large' onClick={handleClick}  startIcon={<PersonAddIcon />}>Add A Voter</Button><span style={{padding:"24px"}}></span>
+                    <Button variant='contained' color='primary' href={chainLink()}  startIcon={<VisibilityIcon />}>View on Chain</Button>
                 </Grid>
             </Grid>
         </Card>
+        <br/>
         <RenderVoteButtons styles={{margin:'12px'}}/>
         <RenderVotes styles={{margin:'12px'}}/>
     </div>

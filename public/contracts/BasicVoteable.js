@@ -7,7 +7,8 @@ class BasicVoteable{
         this.votes = []
     }
     addVoter(pubKey){
-        
+        this._owners.push(pubKey)
+        this.voters.push(pubKey)
     }
     vote(publicKey, vote){
         this.votes.push(publicKey + ":" + vote)
