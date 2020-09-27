@@ -7,6 +7,7 @@ import { Avatar, Box, Button, Grid, Card, Link, TextField, Typography, Container
 import * as Constants from './../constants/LocalStorageConstants'
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Mnemonic from 'bsv/mnemonic'
 
 function Copyright() {
   return (
@@ -118,9 +119,17 @@ function Login({computer, setComputer, setLoggedIn}) {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="http://accounts.protoshi.com" variant="body2">
+                <Button variant='link' 
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const mn = Mnemonic.fromRandom(); 
+                    window.localStorage.setItem(Constants.SEED, mn.toString())
+                    alert("Please write down your seed as you will not be able to generate the same seed again.\n\n Your Seed Phrase is: \n\n" + mn.toString())
+                    setSeed(mn.toString())
+                    history.push('/send-satoshis')
+                  }}>
                   {"Don't have an account? Get A Seed Phrase"}
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </form>

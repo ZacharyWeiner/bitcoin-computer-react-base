@@ -118,18 +118,18 @@ export default function App() {
               Home
             </Button>
             <Button variant="contained" color="default" href="/send-satoshis" className={classes.link}>
-              Send Satoshis
+              Get Started
             </Button>
-            <Button variant="contained" color="default" href="/tokens" className={classes.link}>
+            <Button variant="contained" color="default" href="/tokens" className={classes.link} target="_blank">
               Coins &amp; Wallets
             </Button>
-            <Button variant="contained" color="default" href="/non-fungible-token" className={classes.link}>
+            <Button variant="contained" color="default" href="/non-fungible-token" className={classes.link} target="_blank">
               Non Fungible Token
             </Button>
             {/* <Button variant="contained" color="default" href="/rock-paper-scisors" className={classes.link}>
               Basic Game
             </Button> */}
-            <Button variant="contained" color="default" href="/votables" className={classes.link}>
+            <Button variant="contained" color="default" href="/votables" className={classes.link} target="_blank">
               Votables
             </Button> 
           </nav>
@@ -153,7 +153,7 @@ export default function App() {
             <About />
           </Route>
           <Route path="/send-satoshis">
-            <SendSatoshis />
+            <SendSatoshis setLoggedIn={setLoggedIn}/>
           </Route>
           <Route path="/non-fungible-token">
             <NonFungibleToken />

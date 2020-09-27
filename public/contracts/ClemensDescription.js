@@ -1,11 +1,12 @@
 class RPS {
     constructor(player1, player2) {
-   this._owners = [player2]
-       this.winner = null
+      this._owners = [player2]
+      this.winner = null
     }
   
     hash(value) {
-      //TODO Implement a hashing function 
+      let valueToHash = value.toString() + player1.toString() + player2.toString()
+      return valueToHash.hashCode
     }
   
     move0(hash) {
