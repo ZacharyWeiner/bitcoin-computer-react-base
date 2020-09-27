@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import {Button} from '@material-ui/core'
+import {Button, Card, Grid, Typography} from '@material-ui/core'
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants'
+import AddressDetails from './../components/AddressDetails.js'
+import SendIcon from '@material-ui/icons/Send'
 
 
 class Vote{
@@ -12,7 +14,46 @@ class Vote{
       this.vote = vote
     }
   }
-
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      minWidth: 275,
+    },
+    paper: {
+      margin: theme.spacing(4),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    darkPaperLeft: {
+      padding: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'left',
+      backgroundColor: '#000', color: '#fff'
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.primary.main,
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+  }));
 function VoteableDetails(){
     const [refresh, setRefresh] = useState(null)
     const [computer, setComputer] = useState(null)
@@ -72,7 +113,7 @@ function VoteableDetails(){
     function RenderVotes(){
         let votes_ui = null
         if(voteable && voteable.votes && voteable.votes.length > 0){
-            votes_ui =  voteable.votes.map((v) =>{ return <div key={v}>{v}</div> })
+            votes_ui =  voteable.votes.map((v) =>{ return <Card key={v}><Typography className={classes.paper} variant='h6' control='h6' >{v}</Typography></Card> })
         }
         return votes_ui
     }
@@ -88,24 +129,35 @@ function VoteableDetails(){
             if(show_vote){
                 return(
                     <div>
-                        <Button onClick={upVote} name="UpVote"> UpVote </Button> 
-                        <Button onClick={downVote} name="DownVote"> DownVote </Button>
+                        <Button color='primary' variant='contained' onClick={upVote} name="UpVote"> UpVote </Button> 
+                        <Button color='secondary' variant='contained' onClick={downVote} name="DownVote"> DownVote </Button>
                     </div>
                 )
             }else{
-                return("Already Voted")
+                return(<Typography className={classes.paper} variant='h6' control='h6' styles={{margin:'12px'}}>You Have Already Voted</Typography>)
             }
-        } else {return "No Votes"}
+        } else {return (<Typography className={classes.paper} variant='h6' control='h6' styles={{margin:'12px'}}>No Votes Yet</Typography>)}
     }
+
+   
+    const classes = useStyles()
     return(
     <div> 
-        <h4> Address: {address} </h4>
-        <h4> Balance: {balance} </h4>
-        <div>Votable Details with id: {id}</div>
-        <div>Votable Name: {voteable ? (voteable.name ) : ""}</div>
-        <div>Description: {voteable ? (voteable.description ) : ""}</div>
-        <RenderVoteButtons />
-        <RenderVotes />
+        <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
+        <Card styles={{padding:'12px'}}> 
+            <Grid container align='center'> 
+                <Grid item xs={12} style={{paddingTop:'48px'}}>
+                    <Typography control='h1' variant='h1' >{voteable ? (voteable.name ) : ""}</Typography>
+                    <div>Votable Details with id: {id}</div>
+                </Grid>
+                <Grid item xs={12} style={{paddingTop:'48px'}}>
+                <Typography control='h6' variant='h6' >Description: <br/> {voteable ? (voteable.description ) : ""}</Typography>
+                
+                </Grid>
+            </Grid>
+        </Card>
+        <RenderVoteButtons styles={{margin:'12px'}}/>
+        <RenderVotes styles={{margin:'12px'}}/>
     </div>
     )
 

@@ -1,14 +1,45 @@
 import React, {useState, useEffect} from 'react'
+import {makeStyles} from '@material-ui/core/styles'
 import Computer from 'bitcoin-computer'
-import {Button, Card, Grid} from '@material-ui/core'
+import {Avatar, Button, Card, Container, CssBaseline, TextField, Typography, Grid} from '@material-ui/core'
 import FileUtils from './../utilities/FileUtils.js'
+import SendIcon from '@material-ui/icons/Send'
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    darkPaperLeft: {
+      padding: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'left',
+      backgroundColor: '#000', color: '#fff'
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.primary.main,
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    }
+  }));
+  
 
 function Mint({computer}){
     const [supply, setSupply] = useState(0)
     const [name, setName] = useState('')
-    
+    const [creating, setCreating] = useState(false)
  
     const handleSubmit = async (e) => {
+        setCreating(true)
         try{
             e.preventDefault()
             const pubKey = computer.db.wallet.getPublicKey().toString()
@@ -23,17 +54,56 @@ function Mint({computer}){
                 alert(err)
             }
         }
+        setCreating(false)
     }   
+    const classes = useStyles()
     return(<div> 
-        <form onSubmit={handleSubmit}>
-        <b>Supply</b><br />
-            <input type="number" value={supply} onChange={(e) => setSupply(e.target.value)} /><br /><br />
-            <b>Name</b><br />
-            <input type="string" value={name} onChange={(e) => setName(e.target.value)} /><br /><br />
-            <button type="submit">Mint</button>
-        </form> 
-
-        <div> Expected Supply: {supply} </div>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <SendIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create New Coins 
+            </Typography>
+            <form className={classes.form} noValidate  onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                type="number"
+                id="supply"
+                label="How Many Coins Do You Want To Create in This Asset Class?"
+                name="supply"
+                defaultValue={supply}  onChange={(e) => setSupply(e.target.value)}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Name of Your Coins"
+                type="text"
+                id="name"
+                name="name" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Create New Coins
+              </Button>
+            </form>
+          </div>
+          {creating && (<div>Creating The Coins...</div>)}
+        </Container>
     </div>)
 }
 

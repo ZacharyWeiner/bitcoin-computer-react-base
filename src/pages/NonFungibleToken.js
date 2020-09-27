@@ -1,16 +1,18 @@
 import React, {useState, useEffect} from "react";
-import {Button, Grid, TextField, Card} from '@material-ui/core'
+import {Button, Grid, TextField, Card, Container, CssBaseline, Avatar, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import FileUtilities from "../utilities/FileUtils"
 import NonFungibleTokenCard from './../components/NonFungibleTokenCard.js'
 import * as Constants from './../constants/LocalStorageConstants'
 import { useHistory } from "react-router-dom";
+import AddressDetails from './../components/AddressDetails.js'
+import SendIcon from '@material-ui/icons/Send'
 
 export default function NonFungibleToken() {
     const [computer, setComputer] = useState(null)
-    const [address, setAddress] = useState('')
-    const [balance, setBalance] = useState('')
+    const [address, setAddress] = useState('Not Logged In')
+    const [balance, setBalance] = useState(0)
     const [url, setUrl] = useState('')
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
@@ -18,6 +20,7 @@ export default function NonFungibleToken() {
     const [tokens, setTokens] = useState([])
     const [revs, setRevs] = useState([])
     const [refresh, setRefresh] = useState(0)
+    const [publicKey, setPublicKey] = useState('Not Logged In')
   
 
     const handleBlur = async (e) => {
@@ -45,6 +48,7 @@ export default function NonFungibleToken() {
                 let b = await nftComputer.db.wallet.getBalance()
                 setBalance(b)
                 console.log('async initializing the  default computer')
+                setPublicKey(await nftComputer.db.wallet.getPublicKey().toString())
           }
           const fetchRevs = async () => {
             setRevs(await computer.getRevs(computer.db.wallet.getPublicKey()))
@@ -110,9 +114,33 @@ export default function NonFungibleToken() {
       }, [revs, computer])
 
 
-    const useStyles = makeStyles({
+      const useStyles = makeStyles((theme) => ({
         root: {
           minWidth: 275,
+        },
+        paper: {
+          margin: theme.spacing(4),
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        },
+        darkPaperLeft: {
+          padding: theme.spacing(8),
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'left',
+          backgroundColor: '#000', color: '#fff'
+        },
+        avatar: {
+          margin: theme.spacing(1),
+          backgroundColor: theme.palette.primary.main,
+        },
+        form: {
+          width: '100%', // Fix IE 11 issue.
+          marginTop: theme.spacing(1),
+        },
+        submit: {
+          margin: theme.spacing(3, 0, 2),
         },
         bullet: {
           display: 'inline-block',
@@ -125,35 +153,73 @@ export default function NonFungibleToken() {
         pos: {
           marginBottom: 12,
         },
-      });
+      }));
     const classes = useStyles()
 
   return (
     <div>
-       <h4 className="center">Address: {address} </h4>
-       <h4 className="center">Balance: {balance} satoshis</h4>
-        <Card variant="outlined">
-        <Grid item xs={12}><h1>Non Fungible Token Example</h1></Grid>
-        <form onSubmit={sendToken}>
-            <Grid container> 
-                <Grid item xs={2}></Grid>
-                <Grid item xs={8}>
-                    Title <br/>
-                    <TextField name="title" placeholder="Title The Token" defaultValue={title}  onBlur={handleBlur} className={classes.root} fullWidth/>    
-                    <br/>
-                    Description <br/>
-                    <TextField name="description" placeholder="Describe the Token in as much detail as you need" defaultValue={title}  onBlur={handleBlur} className={classes.root} fullWidth/>                      
-                    <br/>
-                    Url<br/>
-                    <TextField name="url" defaultValue={title} placeholder="This can be an image, video, file, or web url"  onBlur={handleBlur} className={classes.root} fullWidth/>    
-                    <br /><br />
-                    <Button type="submit" variant='contained' color='primary'> Create The Token </Button>
-                </Grid>
-                <Grid item xs={2}></Grid>
-                <Grid item xs={12}></Grid>
-            </Grid>
-        </form>
-        </Card>
+       <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
+       <br />
+        <Container component="main" maxWidth="md">
+          <CssBaseline />
+          <Card>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <SendIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create A New Token
+            </Typography>
+            <form className={classes.form} noValidate  onSubmit={sendToken}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="title"
+                label="Token Title"
+                name="title"
+                defaultValue={""}  onBlur={handleBlur}
+              />  
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Description"
+                type="text"
+                id="description"
+                name="description" 
+                defaultValue={''}  
+                onBlur={handleBlur}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Image URL"
+                type="text"
+                id="url"
+                name="url" 
+                defaultValue={''}  
+                onBlur={handleBlur}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Create Your Token
+              </Button>
+            </form>
+            
+          </div>
+          </Card>
+          <br />
+        </Container>
         <Card variant="outlined">
             {loading && (<p>Loading...</p>)}
         <Grid item xs={12}>

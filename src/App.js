@@ -125,9 +125,9 @@ export default function App() {
             <Button variant="contained" color="default" href="/non-fungible-token" className={classes.link}>
               Non Fungible Token
             </Button>
-            <Button variant="contained" color="default" href="/rock-paper-scisors" className={classes.link}>
+            {/* <Button variant="contained" color="default" href="/rock-paper-scisors" className={classes.link}>
               Basic Game
-            </Button>
+            </Button> */}
             <Button variant="contained" color="default" href="/votables" className={classes.link}>
               Votables
             </Button> 

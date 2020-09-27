@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Avatar, Box, Button, Grid, Card, Link, TextField, Typography, Container, CssBaseline } from '@material-ui/core'
+import { Avatar, Box, Button, Grid, Card, CardActions, Link, TextField, Typography, Container, CssBaseline } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants'
@@ -197,20 +197,22 @@ export default function SendSatoshis() {
             <Grid item xs={8}>
               {loading === true && (
                 <Grid xs={12}>
-                <h3>Loading...</h3>
+                <Typography variant="h2" componenet="h1">Sending...</Typography>
                 </Grid>
               )}
               <br/>
               {chainLink !== '' && (
                 <Card>
-                  <h5>Transaction ID:</h5>
+                  <Typography variant="h3" componenet="h1">Transaction ID:</Typography>
                   <br/>
-                  {txID}
+                  <Typography variant="p" componenet="p"> {txID} </Typography>
                   <br/>
+                  <CardActions>
+                    <Button href={chainLink} target="_blank" variant="contained" color="secondary" fullWidth>
+                      Find This Transaction On Chain
+                    </Button>
+                  </CardActions>
                   <br/>
-                  <Button href={chainLink} target="_blank" variant="contained" color="secondary">
-                    Find This Transaction On Chain
-                  </Button>
                 </Card>
               )}
             </Grid>

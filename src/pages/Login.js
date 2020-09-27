@@ -3,7 +3,7 @@ import {
   useHistory
 } from "react-router-dom";
 import Computer from 'bitcoin-computer'
-import { Avatar, Box, Button, Grid, Card, Link, TextField, Typography, Container, CssBaseline, } from '@material-ui/core'
+import { Avatar, Box, Button, Grid, Card, Link, TextField, Typography, Container, CssBaseline } from '@material-ui/core'
 import * as Constants from './../constants/LocalStorageConstants'
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -73,58 +73,58 @@ function Login({computer, setComputer, setLoggedIn}) {
   return (
     <div>
       <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username_box"
-            label="Any Username You Like"
-            name="username_box"
-            autoFocus
-            value={username} 
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="seed"
-            label="Seed Phrase"
-            type="text"
-            id="seed"
-            defaultValue={seed} 
-            onChange={handleChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleClick}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link href="http://accounts.protoshi.com" variant="body2">
-                {"Don't have an account? Get A Seed Phrase"}
-              </Link>
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username_box"
+              label="Any Username You Like"
+              name="username_box"
+              autoFocus
+              value={username} 
+              onChange={handleChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="seed"
+              label="Seed Phrase"
+              type="text"
+              id="seed"
+              defaultValue={seed} 
+              onChange={handleChange}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleClick}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="http://accounts.protoshi.com" variant="body2">
+                  {"Don't have an account? Get A Seed Phrase"}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
+          </form>
+        </div>
       <Box mt={8}>
         <Copyright />
       </Box>

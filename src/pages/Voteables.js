@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from "react";
-import {Button, Grid, TextField, Card} from '@material-ui/core'
+import {Avatar, Button, Container, CssBaseline, Grid, TextField, Card, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import FileUtilities from "../utilities/FileUtils"
 import NonFungibleTokenCard from './../components/NonFungibleTokenCard.js'
 import * as Constants from './../constants/LocalStorageConstants'
 import { useHistory } from "react-router-dom";
+import AddressDetails from './../components/AddressDetails.js'
+import SendIcon from '@material-ui/icons/Send'
 
 export default function Voteables() {
     const [computer, setComputer] = useState(null)
-    const [address, setAddress] = useState('')
-    const [balance, setBalance] = useState('')
+    const [address, setAddress] = useState('Loading...')
+    const [publicKey, setPublicKey] = useState('Loading...')
+    const [balance, setBalance] = useState(0)
     const [url, setUrl] = useState('')
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
@@ -43,6 +46,7 @@ export default function Voteables() {
                 let b = await nftComputer.db.wallet.getBalance()
                 setBalance(b)
                 console.log('async initializing the  default computer')
+                setPublicKey(await nftComputer.db.wallet.getPublicKey().toString())
           }
           const fetchRevs = async () => {
             setRevs(await computer.getRevs(computer.db.wallet.getPublicKey()))
@@ -97,9 +101,33 @@ export default function Voteables() {
       }, [revs, computer])
 
 
-    const useStyles = makeStyles({
+      const useStyles = makeStyles((theme) => ({
         root: {
           minWidth: 275,
+        },
+        paper: {
+          margin: theme.spacing(4),
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        },
+        darkPaperLeft: {
+          padding: theme.spacing(8),
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'left',
+          backgroundColor: '#000', color: '#fff'
+        },
+        avatar: {
+          margin: theme.spacing(1),
+          backgroundColor: theme.palette.primary.main,
+        },
+        form: {
+          width: '100%', // Fix IE 11 issue.
+          marginTop: theme.spacing(1),
+        },
+        submit: {
+          margin: theme.spacing(3, 0, 2),
         },
         bullet: {
           display: 'inline-block',
@@ -112,35 +140,75 @@ export default function Voteables() {
         pos: {
           marginBottom: 12,
         },
-      });
+      }));
     const classes = useStyles()
 
   return (
     <div>
-       <h4 className="center">Address: {address} </h4>
-       <h4 className="center">Balance: {balance} satoshis</h4>
-        <Card variant="outlined">
-        <Grid item xs={12}><h1>Voteables</h1></Grid>
-        <form onSubmit={createVotable}>
-            <Grid container> 
-                <Grid item xs={2}></Grid>
-                <Grid item xs={8}>
-                    Title <br/>
-                    <TextField name="title" placeholder="Title The Token" defaultValue={title}  onBlur={handleBlur} className={classes.root} fullWidth/>    
-                    <br/>
-                    Description <br/>
-                    <TextField name="description" placeholder="Describe the Token in as much detail as you need" defaultValue={title}  onBlur={handleBlur} className={classes.root} fullWidth/>                      
-                    <br/>
-                    Url<br/>
-                    <TextField name="url" defaultValue={title} placeholder="This can be an image, video, file, or web url"  onBlur={handleBlur} className={classes.root} fullWidth/>    
-                    <br /><br />
-                    <Button type="submit" variant='contained' color='primary'> Create The Token </Button>
-                </Grid>
-                <Grid item xs={2}></Grid>
-                <Grid item xs={12}></Grid>
-            </Grid>
-        </form>
-        </Card>
+       <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
+
+
+
+       <Container component="main" maxWidth="md">
+          <CssBaseline />
+          <Card>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <SendIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create A New Issue To Vote On
+            </Typography>
+            <form className={classes.form} noValidate  onSubmit={createVotable}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="title"
+                label="Issue Title"
+                name="title"
+                defaultValue={""}  onBlur={handleBlur}
+              />  
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Description"
+                type="text"
+                id="description"
+                name="description" 
+                defaultValue={''}  
+                onBlur={handleBlur}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Image URL"
+                type="text"
+                id="url"
+                name="url" 
+                defaultValue={''}  
+                onBlur={handleBlur}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Create Your Token
+              </Button>
+            </form>
+            
+          </div>
+          </Card>
+          <br />
+        </Container>
         <Card variant="outlined">
             {loading && (<p>Loading...</p>)}
         <Grid item xs={12}>
@@ -148,10 +216,15 @@ export default function Voteables() {
             {tokens !== null && tokens.map(token => {
               if(token !== null){
                 return (
-                    <div key={token._id.toString()}>
-                        {token._id.toString()} {token.name} 
-                        <br/>{token.description}
-                      </div> 
+                    <Grid item xs={4}>
+                    <Card key={token._id.toString()} className={classes.paper}>
+                        <Typography control='h3' variant='h5' >{token.name}</Typography>
+                        <br/>
+                        <Typography control='p' variant='p' >{token.description}</Typography>
+                        <br/>
+                        <Button href={`/voteable/${token._id.toString()}`}> View Details</Button>
+                      </Card> 
+                    </Grid>
                     )
                 }else{
                   return (<div></div>)
