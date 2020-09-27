@@ -23,7 +23,7 @@ function NonFungibleTokenCard({computer, token}){
                     alt="Token Card Image"
                     height="140"
                     image={token.url}
-                    title="Contemplative Reptile"
+                    title="Token Image"
                     />
                 <h5>{token.name}</h5>
                 <p>{token.description}</p>

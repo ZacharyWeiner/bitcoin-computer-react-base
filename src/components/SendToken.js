@@ -45,6 +45,7 @@ function SendToken({ computer, tokens }) {
     let leftToSpend = amount
     for (const token of tokens) {
       const tokenCoins = parseInt(token.coins, 10)
+      console.log(leftToSpend.toString() + " " + tokenCoins.toString() + " " + to)
       if (0 < leftToSpend && 0 < tokenCoins) {
         newTokens.push(await token.send(Math.min(leftToSpend, tokenCoins), to))
         leftToSpend -= tokenCoins
@@ -61,10 +62,10 @@ function SendToken({ computer, tokens }) {
   margin="normal"
   required
   fullWidth
-  id="sendToAddress"
-  label="Send To Address"
-  name="sendToAddress"
-  defaultValue={to}
+  id="sendToPK"
+  label="Send To Public Key"
+  name="sendToPublickKey"
+  value={to}
   onChange={(e) => setTo(e.target.value)}
   />
 <TextField

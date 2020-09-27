@@ -37,7 +37,7 @@ function TokenWallet({tokens, computer}){
 
     let classes = useStyles()
     return(
-        <Grid item xs={12}  classNam={classes.paper}>
+        <Grid item xs={12}  className={classes.paper}>
             <Card style={{margin:'6px', outlineColor:'#000', color: '#000', outlineWidth:'2px'}}>
                 <Grid container align='center'>
                     <Grid item xs={6}>
