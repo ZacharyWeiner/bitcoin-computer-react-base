@@ -76,7 +76,7 @@ export default function Voteables() {
           console.log(await computer.db.wallet.getBalance())
           console.log("Creating A Smart Contract with PublicKey: " + publicKey)
           const BasicVoteable = await FileUtilities.importFromPublic('/contracts/BasicVoteable.js')
-          const token = await computer.new(BasicVoteable, [publicKey, "Proposal Name", "A Cool Description of an awesome proposal", {}])
+          const token = await computer.new(BasicVoteable, [publicKey, title, description, url])
           console.log('Created token with id', token._id)
           console.log("Getting Balance of Smart Contract Deploy From Address After Creating Token")
           console.log(await computer.db.wallet.getBalance())
@@ -146,9 +146,6 @@ export default function Voteables() {
   return (
     <div>
        <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
-
-
-
        <Container component="main" maxWidth="md">
           <CssBaseline />
           <Card>
@@ -187,7 +184,7 @@ export default function Voteables() {
                 margin="normal"
                 required
                 fullWidth
-                label="Image URL"
+                label="Proposal Document URL"
                 type="text"
                 id="url"
                 name="url" 
@@ -201,7 +198,7 @@ export default function Voteables() {
                 color="primary"
                 className={classes.submit}
               >
-                Create Your Token
+                Create Your Votable
               </Button>
             </form>
             
