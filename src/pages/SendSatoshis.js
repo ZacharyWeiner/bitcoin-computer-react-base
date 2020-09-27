@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants'
 import SendIcon from '@material-ui/icons/Send'
+import Mnemonic from 'bsv/mnemonic'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,6 +45,7 @@ export default function SendSatoshis() {
    const [txID, setTXID] = useState('')
    const [publicKey, setPublicKey] = useState('')
 
+
    const handleBlur = async (e) => {
      if(e.target.name === 'sendToAddress'){
       setSendTo(e.target.value)
@@ -65,12 +67,18 @@ export default function SendSatoshis() {
       setPublicKey(_computer.db.wallet.getPublicKey().toString())
       console.log('async initializing the  default computer')
     }
-    let seed = window.localStorage.getItem(Constants.SEED)
-    if(seed && computer === null){
-      setUpComputer(seed)
+    let _seed = window.localStorage.getItem(Constants.SEED)
+    console.log(_seed)
+    if(_seed && computer === null){
+      setUpComputer(_seed)
     }
 
   }, [computer])
+    const generateSeed = async (e) =>{
+      const mn = Mnemonic.fromRandom(); 
+      window.localStorage.setItem(Constants.SEED, mn.toString())
+    
+    }
     const send = async (e) => {
       try{
         e.preventDefault()
@@ -125,16 +133,19 @@ export default function SendSatoshis() {
         </Typography>
         <h4> <span className="script big-number">1.</span>If You Dont Have A Seed Phrase To Use On The Test Network </h4>
         
-          <Button variant="contained" color="primary" href="http://accounts.protoshi.com" target="_blank" rel="noopener noreferrer"> Get Your Seed Passphrase Here </Button>
+          <Button variant="contained" color="primary" onClick={generateSeed} target="_blank" rel="noopener noreferrer"> Generate Your Seed </Button>
         
         <h5> Write Down Your Seed Phrase. Your Seed is YOUR Responsibility. </h5> 
 
         <h4>  <span className="script big-number">2.</span>Login To This App</h4>
-        <Button variant="contained" color="secondary" href="/login" target="_blank" rel="noopener noreferrer"> Login </Button>
+        {window.localStorage.getItem(Constants.SEED) === null 
+        ? (<div> <Button variant="contained" color="secondary" href="/login" target="_blank" rel="noopener noreferrer"> Login </Button></div>) 
+        : (<div>You Are Logged in With Seed: <br /> <Typography component='h2' variant='h5' style={{color:'lightblue'}}> {window.localStorage.getItem(Constants.SEED)} </Typography></div>)}
+        
         <br />
         <h4>  <span className="script big-number">3.</span>Get Some Bitcoin To Use In These Apps</h4>
         <p>Now that you have an Account, we need to fill it with some Bitcoin. 
-          <br/>To make this demo free, this website runs on top of bitcoin's test network. 
+          <br/>To make these applications free, this website runs on top of bitcoin's test network. 
         </p>
         <p> 
           Your Copy Your Address, and paste it in the text box on the page that launches when you click the button below<br/>

@@ -83,6 +83,7 @@ export default function App() {
     
     const setUpComputer = async () => {
       let seed = window.localStorage.getItem(Constants.SEED)
+      console.log(seed)
       if(seed === null){return null}
       let _computer  = new Computer({
         seed: seed,
