@@ -118,7 +118,10 @@ export default function SendSatoshis() {
           On Bitcoin, you use a 12 word seed phrase a kind of a usernam and password for your account. <br/>
           Your seed can be used in any application, not just this one. <br/>
           Any Coins, Tokens, Game Results or Votes that you create in this application can be used in any other Bitcoin application. 
-          This principal is the foundation of data ownership. This application does NOT own your data. You do. And, you can bring it with you where ever you like. 
+          This principal is the foundation of data ownership. 
+          <br/>This application does NOT own your data. You do. 
+          <br/> No data is ever sent to our server and there is no database. This application runs exclusively in your browser, and stores all data on the blockchain. 
+          <br/>You can bring it with you where ever you like. 
         </Typography>
         <h4> <span className="script big-number">1.</span>If You Dont Have A Seed Phrase To Use On The Test Network </h4>
         

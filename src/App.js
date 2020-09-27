@@ -99,7 +99,7 @@ export default function App() {
     if(_loggedIn && computer === null){
       setUpComputer()
     }
-  }, [])
+  }, [computer])
   const logout = ()=> {
     window.localStorage.clear()
     setLoggedIn(false)

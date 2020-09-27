@@ -28,7 +28,7 @@ export default function Home() {
                 <HomeCard image_url="https://www.finews.com/images/cache/b36e32165cdd55e625dbf64a6e15b2d2_w500_h300_cp.jpg" 
                                                     title="Coins" headText="Coins" description="Using Smart contracts you can create coins, that all have the same value, like money, and can easily be sent to or from your account." /></Grid> 
               <Grid item xs={12} md={6} align="center" 
-                ><HomeCard image_url="https://vignette.wikia.nocookie.net/clashroyale/images/b/b0/Trade_Tokens.png/revision/latest?cb=20180903021928" headText="Tokens" description="Tokens are represent something that is unique. Some tokens like a token representing a car share a value, but each one is unique."/>
+                ><HomeCard image_url="https://vignette.wikia.nocookie.net/clashroyale/images/b/b0/Trade_Tokens.png/revision/latest?cb=20180903021928" headText="Tokens" description="Tokens represent something that is unique. Some tokens like a token representing a car share a value, but each one is unique."/>
               </Grid> 
               <Grid item xs={12} md={4} align='center'>
                 <HomeCard image_url="https://cdn1.vectorstock.com/i/1000x1000/58/45/new-chat-message-notification-icon-vector-22615845.jpg" headText="Chat" /></Grid>
