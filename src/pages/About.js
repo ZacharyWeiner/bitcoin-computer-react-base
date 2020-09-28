@@ -140,10 +140,46 @@ export default function About({setLoggedIn}) {
           console.log("Error: " + err.toString())
         }
       })
-      setComputer(storage_comp)
-      setLoading(false)
     }
     
+
+    async function fundAddress(_path){
+      setLoading(true)
+      let _computer = new Computer({
+        seed: seed, 
+        chain: "BSV",
+        path: _path
+      })
+      let addr = await _computer.db.wallet.getAddress()
+      let sendFrom = new Computer({
+        seed: window.localStorage.getItem(Constants.SEED),
+        chain: "BSV", // BSV or BCH
+        network: "testnet"
+      })
+      try{
+        let tx = await sendFrom.db.wallet.send(parseInt(10000, 10), addr)
+        setTXID(tx)
+        setChainLink(`https://test.whatsonchain.com/tx/${tx}`)
+        setBalance(await sendFrom.db.wallet.getBalance())
+        
+      }catch(err){
+        alert (err)
+      }
+      setLoading(false)
+    }
+
+    const fundCoins = async (e) =>{
+      await fundAddress(Constants.TOKENS_PATH)
+    }
+
+    const fundTokens = async (e) =>{
+      await fundAddress(Constants.NFT_PATH)
+    }
+
+    const fundVotes = async (e) =>{
+      await fundAddress(Constants.BASIC_VOTEABLE_PATH)
+    }
+
     const send = async (e) => {
       try{
         e.preventDefault()
@@ -291,15 +327,33 @@ export default function About({setLoggedIn}) {
                 Send Satoshis
               </Button>
             </form>
-            {/* <Button
-                onClick={fundAddresses}
+            <Button
+                onClick={fundCoins}
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 className={classes.submit}
               >
-                Fund All Addresses For This App
-              </Button> */}
+                Send 10,000 Satoshis To Coins Wallet 
+              </Button>
+              <Button
+                onClick={fundTokens}
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className={classes.submit}
+              >
+                Send 10,000 Satoshis To NFT Wallet 
+              </Button>
+              <Button
+                onClick={fundVotes}
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className={classes.submit}
+              >
+                Send 10,000 Satoshis To Votables Wallet 
+              </Button>
           </div>
         </Container>
         <Grid container>
