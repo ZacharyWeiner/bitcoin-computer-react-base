@@ -117,8 +117,11 @@ export default function App() {
             <Button variant="contained" color="default" href="/" className={classes.link}>
               Home
             </Button>
-            <Button variant="contained" color="default" href="/send-satoshis" className={classes.link}>
+            <Button variant="contained" color="default" href="/about" className={classes.link}>
               Get Started
+            </Button>
+            <Button variant="contained" color="default" href="/send-satoshis" className={classes.link}>
+              Send Satoshis
             </Button>
             <Button variant="contained" color="default" href="/tokens" className={classes.link} target="_blank">
               Coins &amp; Wallets
@@ -150,7 +153,7 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/about">
-            <About />
+            <About setLoggedIn={setLoggedIn}/>
           </Route>
           <Route path="/send-satoshis">
             <SendSatoshis setLoggedIn={setLoggedIn}/>

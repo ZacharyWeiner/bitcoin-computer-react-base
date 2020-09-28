@@ -24,7 +24,7 @@ function CustomToken({_objects})
       const isLoggedIn = password && chain
       // if you are currently logging in
       if (isLoggedIn && !computer){
-        setComputer(new Computer({ chain: "BSV", network: 'testnet', seed: password }))
+        setComputer(new Computer({ chain: "BSV", network: 'testnet', seed: password, path: Constants.TOKENS_PATH }))
         console.log("Bitcoin Computer created on " + chain)
       // if you are currently logging out
       } else if (!isLoggedIn && computer){

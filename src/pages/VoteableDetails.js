@@ -66,16 +66,20 @@ function VoteableDetails(){
     const [voteable, setVoteable] = useState(null)
     const [lastRev, setLastRev] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [disableButtons, setDisableButtons] = useState(false)
     const { id } = useParams()
     
     const handleClick = async (e) =>{
         setLoading(true)
-        let prompt_response =  prompt("Enter The New Owners Public Key");
+        let prompt_response =  prompt("Enter The New Voters Public Key");
         if (prompt_response.length > 0 ){
             console.log(await voteable.addVoter(prompt_response))
         }
         setLoading(false)
     }
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+      }
     useEffect(() =>{
         const setUpComputer = async (seed, path) =>{
             const nftComputer = new Computer({
@@ -109,19 +113,38 @@ function VoteableDetails(){
           if(computer !== null ){
             console.log("getting revs")
             awaitGetLatestRevs()
+            setTimeout(() => setRefresh(refresh + 1), 3500)
+            setLoading(false)
             console.log("done getting revs")
         }
-    }, [computer, id, lastRev])
-    useEffect(() => {
         
-        
-    })  
+    }, [computer, id, lastRev, refresh])
 
-    function upVote(){     
-        voteable.vote(publicKey, "up")
+    function upVote(e){
+        try{
+            e.preventDefault()
+            setDisableButtons(true)
+            setLoading(true)     
+            voteable.vote(publicKey, "up")
+            // window.location.reload();
+        }catch(err){
+            alert(err)
+        }
+        
     }
-    function downVote(){
-        voteable.vote(publicKey, "down")
+    function downVote(e){
+        try{
+            e.preventDefault()
+            setDisableButtons(true)
+            setLoading(true)     
+            voteable.vote(publicKey, "down")
+            sleep(5000)
+            setLoading(false)
+            // window.location.reload();
+        }catch(err){
+            alert(err)
+        
+        }
     }
     function RenderVotes(){
         let votes_ui = null
@@ -134,11 +157,15 @@ function VoteableDetails(){
     function RenderVoteButtons(){
         if(voteable && voteable.votes){
             let show_vote = true 
-            voteable.votes.map((v) => {
-                if(v.includes(publicKey)){
-                    show_vote = false
-                }
-            })
+            if(disableButtons){
+                show_vote = false
+            }else {
+                voteable.votes.map((v) => {
+                    if(v.includes(publicKey)){
+                        show_vote = false
+                    }
+                })
+            }
             if(show_vote){
                 return(
                     <Container component="main" maxWidth="md">
@@ -200,7 +227,7 @@ function VoteableDetails(){
     <div> 
         <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
         <Grid container> 
-        <Grid item md={6} style={{backgroundColor:"#000", color:'#fff'}}>
+        <Grid item xs={12} md={6} style={{backgroundColor:"#000", color:'#fff'}}>
             <h1 align="center" className="script big-head">The Contract</h1>
             <h3 align="" ><span className="script" style={{padding:'8px'}}>1.</span> Record Your Vote</h3>
             <p>Now that you have a voteable / proposal you can send your thumbs up or thumbs down vote to be stored on the blockchain for eternity.
@@ -213,7 +240,7 @@ function VoteableDetails(){
             <small>This is just for demonstration purposes and should not be used in production. Remeber you can create your own public / private keys so in production if anyone were allwed to vote, someone could add their own vote multiple tiem from different public keys. </small>
 
         </Grid>
-        <Grid item md={6}>
+        <Grid item xs={12} md={6}>
             <br />
             <Card styles={{padding:'12px'}}> 
                 <Grid container align='center'> 
@@ -229,7 +256,9 @@ function VoteableDetails(){
                 </Grid>
             </Card>
             <RenderVoteButtons styles={{margin:'12px'}}/>
+            {/* <RenderVoters /> */}
             <RenderVotes styles={{margin:'12px'}}/>
+            {loading && (<Typography control='h4' variant='h4'> Loading... </Typography>)}
         </Grid>
         </Grid>
         <br/>

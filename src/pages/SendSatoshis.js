@@ -135,66 +135,7 @@ export default function SendSatoshis({setLoggedIn}) {
   return (
   <div style={{height:"100%"}}>
     <Grid container >
-      <Grid item xs={12} md={6} className={ classes.darkPaperLeft}>
-        <Typography component="h1" variant="h3">
-          How Do I Get Started? 
-        </Typography>
-        <br />
-        <Typography component="p"  className={classes.submit}>
-          To get started with Bitcoin and smart contracts the first thing you need is an Account.
-          On Bitcoin, you use a 12 word seed phrase a kind of a usernam and password for your account. <br/>
-          Your seed can be used in any application, not just this one. <br/><br/>
-          Any Coins, Tokens, Game Results or Votes that you create in this application can be used in any other Bitcoin application. 
-          This principal is the foundation of data ownership:
-          <br/><br/><i>This application does NOT own your data. You do. </i><br/>
-          <br/> No data is ever sent to our server and there is no database. This application runs exclusively in your browser, and stores all data on the blockchain. 
-          <br/>You can bring it with you where ever you like. 
-        </Typography>
-        <Typography control='h2' variant='h5' > <span className="script big-number">1</span>- Get A Seed Phrase To Use On The Test Network </Typography>
-        
-          <Button variant="contained" color="primary" onClick={generateSeed} target="_blank" rel="noopener noreferrer"> Generate Your Seed </Button>
-        
-        <h5> Write Down Your Seed Phrase. Your Seed is YOUR Responsibility. </h5> 
-
-        <br />
-        <Typography control='h2' variant='h5' > <span className="script big-number">2</span>- Login To This App</Typography>
-        {window.localStorage.getItem(Constants.SEED) === null 
-        ? (<div> <Button variant="contained" color="secondary" href="/login" target="_blank" rel="noopener noreferrer" fullWidth> Login </Button></div>) 
-        : (<Card>You Are Logged in With Seed: <br /> <Typography component='h2' variant='h5' style={{color:'blue'}}> {window.localStorage.getItem(Constants.SEED)} </Typography></Card>)}
-        
-        <br /><br />
-        <Typography control='h2' variant='h5' > <span className="script big-number">3</span> - Get Some Bitcoin To Use In These Apps</Typography>
-        <Typography control='p' variant='body1'>Now that you have an Account, we need to fill it with some Bitcoin. 
-          <br/>To make these applications free, this website runs on top of bitcoin's test network. 
-          </Typography>
-          <br/>
-          <Typography control='p' variant='body1'> 
-           Copy Your Address, and paste it in the text box on the page that launches when you click the button below<br/>
-          Address: 
-        </Typography>
-          {window.localStorage.getItem(Constants.DEFAULT_ADDRESS) === null 
-          ? <div> Generate a seed to get an address </div>
-          : <Card><Typography control='h2' variant='h5' >{address}</Typography></Card>}
-          
-          
-        <Button variant="contained" color="primary" href="https://faucet.bitcoincloud.net" target="_blank" rel="noopener noreferrer"> Get Your Free Test Bitcoin Here </Button>
-        <br/><br />
-        <Typography control='h2' variant='h5' > <span className="script big-number">4</span>- Send Some Satoshis To The Other Addresses In Your Wallet</Typography>
-        <Typography control='p' variant='body1' style={{marginLeft: "12px"}}>Your Seed phrase is like a password to your wallet. Your crypto wallet has different containers like the dividers in a real wallet. </Typography>
-        <Typography control='p' variant='body1' style={{marginLeft: "24px"}}>
-          <b>4.a</b> 
-          - Click the  
-          <Button variant="contained" color="default" href="/tokens" className={classes.link} target="_blank" style={{margin:"6px"}}>
-              Coins &amp; Wallets
-            </Button> 
-           Button at the top of the page to launch the coins app in a new tab. </Typography>
-        <Typography control='p' variant='body1' style={{marginLeft: "24px"}}><b>4.b</b> - Copy the Address from the top of the page </Typography>
-        <Typography control='p' variant='body1' style={{marginLeft: "24px"}}><b>4.c</b> - Return to this tab, and send some satoshis to the address you copied in the previous step (4.b)</Typography>
-        <Typography control='p' variant='body1' style={{marginLeft: "24px"}}><b>4.d</b> - Return to the coins tab (possibly refresh) to see your Coins App Address is now funded with the number of satoshis you sent </Typography>
-        <Typography control='p' variant='body1' style={{marginLeft: "24px"}}><b>4.e</b> - Repeat steps 4.a - 4.d for the rest of the buttons in the navigation bar. </Typography>
-      </Grid>
-      {/* Begin Right Side Form  */}
-      <Grid align='center' item xs={12} md={6} style={{paddingTop:"125px"}}>
+      <Grid align='center' item xs={12} md={12} style={{paddingTop:"125px"}}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
