@@ -5,18 +5,26 @@ class RPS {
     }
   
     hash(value) {
-      let valueToHash = value.toString() + player1.toString() + player2.toString()
-      return valueToHash.hashCode
+      var hash = 0;
+      if (value.length == 0) {
+          return hash;
+      }
+      for (var i = 0; i < value.length; i++) {
+          var char = value.charCodeAt(i);
+          hash = ((hash<<5)-hash)+char;
+          hash = hash & hash; // Convert to 32bit integer
+      }
+      return hash;
     }
   
     move0(hash) {
       this.hash = hash
-      This._owners = [this.player2]
+      this._owners = [this.player2]
     }
   
     move1(move) {
       this.move1 =  move
-      This._owners = [this.player1]
+      this._owners =  [this.player1]
     }
   
     move2(move, salt) {
