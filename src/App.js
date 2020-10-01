@@ -6,6 +6,7 @@ import {
   useHistory
 } from "react-router-dom";
 import Computer from "bitcoin-computer"
+import VoteMenu from './components/menus/VoteMenu.js'
 import Home from './pages/Home.js'
 import About from './pages/About.js'
 import SendSatoshis from './pages/SendSatoshis.js'
@@ -13,6 +14,8 @@ import NonFungibleToken from './pages/NonFungibleToken.js'
 import Voteables from './pages/Voteables.js'
 import RockPaperScisors from './pages/RockPaperScisors.js'
 import VoteableDetails from './pages/VoteableDetails.js'
+import CreateElection from "./pages/CreateElection.js"
+import Elections from "./pages/Elections.js"
 import * as Constants from './constants/LocalStorageConstants.js'
 import Login from './pages/Login'
 import CustomTokens from './pages/CustomTokens.js'
@@ -80,10 +83,8 @@ export default function App() {
 
   
   useEffect(() => {
-    
     const setUpComputer = async () => {
       let seed = window.localStorage.getItem(Constants.SEED)
-      console.log(seed)
       if(seed === null){return null}
       let _computer  = new Computer({
         seed: seed,
@@ -132,9 +133,9 @@ export default function App() {
             {/* <Button variant="contained" color="default" href="/rock-paper-scisors" className={classes.link}>
               Basic Game
             </Button> */}
-            <Button variant="contained" color="default" href="/votables" className={classes.link} target="_blank">
-              Votables
-            </Button> 
+            
+             <VoteMenu classes={classes}  />
+            
           </nav>
           {logged_in ? (
             <Button onClick={logout}  variant="outlined" className={classes.link, classes.whiteLink}>
@@ -168,6 +169,15 @@ export default function App() {
             <Voteables />
           </Route>
           <Route path="/voteable/:id" >
+            <VoteableDetails />
+          </Route>
+          <Route path="/elections/create">
+            <CreateElection />
+          </Route>
+          <Route path="/elections">
+            <Elections />
+          </Route>
+          <Route path="/election/:id" >
             <VoteableDetails />
           </Route>
           <Route path="/tokens">
