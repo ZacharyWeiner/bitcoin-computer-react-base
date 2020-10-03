@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {useParams} from 'react-router-dom'
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants.js'
 import {Button, Card, Grid} from '@material-ui/core'
@@ -15,6 +16,7 @@ function CustomToken({_objects})
     const [address, setAddress] = useState('Loading...')
     const [balance, setBalance] = useState(0)
     const [publicKey, setPublicKey] = useState('Loading...')
+    const { id } = useParams()
   
     useInterval(() => {
       // BIP_39_KEY & CHAIN is set on login and we fetch it from local storage

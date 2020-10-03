@@ -180,6 +180,10 @@ export default function About({setLoggedIn}) {
       await fundAddress(Constants.BASIC_VOTEABLE_PATH)
     }
 
+    const fundElections = async (e) =>{
+      await fundAddress(Constants.ELECTION_PATH)
+    }
+
     const send = async (e) => {
       try{
         e.preventDefault()
@@ -353,6 +357,15 @@ export default function About({setLoggedIn}) {
                 className={classes.submit}
               >
                 Send 10,000 Satoshis To Votables Wallet 
+              </Button>
+              <Button
+                onClick={fundElections}
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className={classes.submit}
+              >
+                Send 10,000 Satoshis To Elections Wallet 
               </Button>
           </div>
         </Container>

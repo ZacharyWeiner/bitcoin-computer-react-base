@@ -31,8 +31,9 @@ export default function VoteMenu({classes}) {
         onClose={handleClose}
       >
         <MenuItem onClick={(e)=>{history.push('/votables')}}>Up | Down Vote</MenuItem>
-        <MenuItem onClick={(e)=>{history.push('/elections/')}}>My Election Votes</MenuItem>
-        <MenuItem onClick={(e)=>{history.push('/elections/create')}}>Create An Election</MenuItem>
+        <MenuItem onClick={(e)=>{history.push('/elections/')}}>Elections</MenuItem>
+        {/* <MenuItem onClick={(e)=>{history.push('/elections/create')}}>Create An Election</MenuItem>*/}
+        <MenuItem onClick={(e)=>{history.push('/elections/results')}}>Election Results</MenuItem> 
       </Menu>
     </div>
   );

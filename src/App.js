@@ -14,8 +14,9 @@ import NonFungibleToken from './pages/NonFungibleToken.js'
 import Voteables from './pages/Voteables.js'
 import RockPaperScisors from './pages/RockPaperScisors.js'
 import VoteableDetails from './pages/VoteableDetails.js'
-import CreateElection from "./pages/CreateElection.js"
+import CreateElection from "./pages/_oldCreateElection.js"
 import Elections from "./pages/Elections.js"
+import ElectionResults from "./pages/ElectionResults.js"
 import * as Constants from './constants/LocalStorageConstants.js'
 import Login from './pages/Login'
 import CustomTokens from './pages/CustomTokens.js'
@@ -171,15 +172,16 @@ export default function App() {
           <Route path="/voteable/:id" >
             <VoteableDetails />
           </Route>
-          <Route path="/elections/create">
-            <CreateElection />
+          <Route path="/elections/results/:id">
+            <ElectionResults />
           </Route>
+          {/* <Route path="/elections/create">
+            <CreateElection />
+          </Route> */}
           <Route path="/elections">
             <Elections />
           </Route>
-          <Route path="/election/:id" >
-            <VoteableDetails />
-          </Route>
+          
           <Route path="/tokens">
             <CustomTokens objects={[]} />
           </Route>
