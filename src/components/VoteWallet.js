@@ -7,6 +7,14 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
+      padding: theme.spacing(1),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    paddedPaper: {
+      marginTop: theme.spacing(2),
+      padding: theme.spacing(1),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -77,20 +85,20 @@ function VoteWallet({votes, computer, publicKey, rev}){
    
    const history = useHistory()
     return(
-        <Grid item xs={12}  className={classes.paper}>
+        <Grid item xs={12}  className={classes.paddedPaper}>
             <Card style={{margin:'6px', outlineColor:'#000', color: '#000', outlineWidth:'2px'}}>
-                <Grid container align='center'>
+                <Grid container align='center' className={classes.paddedPaper}>
                     <Grid item xs={12}>
-                        <Typography variant="h4" control="p" style={{paddingTop:'15%'}}><MonetizationOnIcon fontSize='large' color='primary'/> {first.name}</Typography>
-                        <Typography variant="h6" control="p">Balance: {balance} undistributed votes</Typography>
-                        <Typography variant="h6" control="p">{first._id}</Typography>
-                        <Button onClick={(e)=>{history.push('/elections/results/'+first._id)}}>View Results</Button>
+                        <Typography variant="h4" control="p" ><MonetizationOnIcon fontSize='large' color='primary'/> {first.name}</Typography>
+                        <Typography variant="h6" control="p">{balance} undistributed votes</Typography>
+                        <Typography variant="body1" control="p">{first._id}</Typography>
+                        <Button onClick={(e)=>{history.push('/elections/results/'+first._id)}} variant='contained' color='secondary'>View Results</Button>
                     </Grid>
                     <Grid item xs={12}>
                       
                       {(votes[0].distributor === publicKey) 
                         ? ( 
-                          <div><SendVote votes={votes} computer={computer} /></div>
+                          <div className={classes.paddedPaper}><SendVote votes={votes} computer={computer} /></div>
                         ) : (
                           <div>
                             <div> Cast Your Vote For: </div>

@@ -1,12 +1,44 @@
 import React, {useState, useEffect} from "react";
 import {useParams} from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles';
+import { red, blue, green } from '@material-ui/core/colors';
 import Computer from 'bitcoin-computer'
 import * as Constants from './../constants/LocalStorageConstants.js'
-import {Button, Card, Grid, Typography} from '@material-ui/core'
+import {Avatar, Button, Card, CardHeader, CardContent, CardActions, Grid, IconButton, Typography} from '@material-ui/core'
 import MintElection from './../components/MintElection.js'
 import useInterval from './../utilities/UseInterval'
 import VoteWallet from './../components/VoteWallet.js'
 import AddressDetails from './../components/AddressDetails.js'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      maxWidth: 345,
+    },
+    media: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    expandOpen: {
+      transform: 'rotate(180deg)',
+    },
+    avatarRed: {
+      backgroundColor: red[500],
+    },
+    avatarBlue: {
+        backgroundColor: blue[500],
+      },
+      avatarGreen: {
+        backgroundColor: green[500],
+      },
+  }));
 
 
 function Elections({_objects})
@@ -25,6 +57,7 @@ function Elections({_objects})
     const [balance, setBalance] = useState(0)
     const [publicKey, setPublicKey] = useState('Loading...')
     const { id } = useParams()
+    const classes = useStyles();
   
     useInterval(() => {
       // BIP_39_KEY & CHAIN is set on login and we fetch it from local storage
@@ -81,9 +114,10 @@ function Elections({_objects})
             console.log(_can3objs)
             setCan3Objects(_can3objs)
             setCan3Name(election.can3name)
+            setLoading(false)
           }
         }
-        setLoading(false)
+        
       }
       refresh()
     }, 3000)
@@ -101,28 +135,80 @@ function Elections({_objects})
     return (
         <div>
         <Card>
-        {loading && (<div> Loading ...</div>)}
-        <Typography control='h1' variant='h1' align='center'>{electionName}</Typography>
-          <Grid container> 
-            <Grid item xs={12} md={4} align='center'>
-                <Typography control='h4' variant='h4'>{can1name}</Typography>
-                {can1objects && Object.values(groupByRoot(can1objects)).map((o) => 
-                <div key={o[0]._id}> {o[0].name} = {o.length} </div>
-                )}
+        <CardContent>
+        {loading 
+        ? (<Typography control='h1' variant='h1'> Loading Election Results <br/> For: {electionName}...</Typography>)
+        :
+            (<Grid container> 
+            <Grid item xs={12} md={12}>
+            <Typography control='h1' variant='h1' align='center'>{electionName}</Typography>
             </Grid>
             <Grid item xs={12} md={4} align='center'>
-            <Typography control='h4' variant='h4'>{can2name}</Typography>
-            {can2objects && Object.values(groupByRoot(can2objects)).map((o) => 
-                <div key={o[0]._id}> {o[0].name} = {o.length} </div>
-                )}
+                <Card variant="outlined">
+                    <CardHeader
+                        avatar={
+                        <Avatar aria-label="recipe" className={classes.avatarRed}>
+                            R
+                        </Avatar>
+                        }
+                        title={can1name}
+                    />
+                    <CardContent align="center">
+                        {can1objects && Object.values(groupByRoot(can1objects)).map((o) => 
+                        <div key={o[0]._id}> 
+                            <Typography control='h3' variant='h5'> {o.length} </Typography> 
+                            <br/>
+                            <Typography control='p' variant='body1'> VOTES </Typography> 
+                        </div>
+                        )}
+                    </CardContent>
+                </Card>
             </Grid>
             <Grid item xs={12} md={4} align='center'>
-            <Typography control='h4' variant='h4'>{can3name}</Typography>
-            {can3objects && Object.values(groupByRoot(can3objects)).map((o) => 
-                <div key={o[0]._id}> {o[0].name} = {o.length} </div>
-                )}
+                <Card variant='outlined'>
+                    <CardHeader
+                                avatar={
+                                <Avatar aria-label="recipe" className={classes.avatarBlue}>
+                                    D
+                                </Avatar>
+                                }
+                                title={can2name}
+                            />
+                     <CardContent align="center">
+                    {can2objects && Object.values(groupByRoot(can2objects)).map((o) => 
+                        <div key={o[0]._id}> 
+                            <Typography control='h3' variant='h5'> {o.length} </Typography> 
+                            <br/>
+                            <Typography control='p' variant='body1'> VOTES </Typography> 
+                        </div>
+                        )}
+                    </CardContent>  
+                </Card>
             </Grid>
-          </Grid>
+            <Grid item xs={12} md={4} align='center'>
+            <Card variant='outlined'>
+                    <CardHeader
+                                avatar={
+                                <Avatar aria-label="recipe" className={classes.avatarGreen}>
+                                    I
+                                </Avatar>
+                                }
+                                title={can3name}
+                            />
+                     <CardContent align="center">
+                        {can3objects && Object.values(groupByRoot(can3objects)).map((o) => 
+                            <div key={o[0]._id}> 
+                                <Typography control='h3' variant='h5'> {o.length} </Typography> 
+                                <br/>
+                                <Typography control='p' variant='body1'> VOTES </Typography> 
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            </Grid>
+          </Grid>)}
+
+          </CardContent>
           </Card>
         </div>
     )

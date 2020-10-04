@@ -51,9 +51,10 @@ function SendVote({ computer, votes }) {
   variant="outlined"
   margin="normal"
   required
-  fullWidth
+  fullWidth='true'
+  align='center'
   id="sendToPK"
-  label="Send To Public Key"
+  label="Send 1 Vote To Public Key"
   name="sendToPublickKey"
   value={to}
   onChange={(e) => setTo(e.target.value)}

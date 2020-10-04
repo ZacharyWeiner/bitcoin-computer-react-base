@@ -8,6 +8,7 @@ import SendIcon from '@material-ui/icons/Send'
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
+      padding: theme.spacing(1),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -66,9 +67,9 @@ function MintElection({computer}){
     }   
     const classes = useStyles()
     return(<div align='center'> 
-        <Container component="main" maxWidth="xs" >
+        <Container component="main"  >
           <CssBaseline />
-          <div className={classes.paper} >
+          <Card className={classes.paper} >
             <Avatar className={classes.avatar}>
               <SendIcon />
             </Avatar>
@@ -83,7 +84,7 @@ function MintElection({computer}){
                 fullWidth
                 type="number"
                 id="votes"
-                label="How Many Coins Do You Want To Create in This Asset Class?"
+                label="How Many Votes Do You Want To Create in This Election?"
                 name="votes"
                 defaultValue={votes}  onChange={(e) => setVotes(e.target.value)}
               />
@@ -181,7 +182,7 @@ function MintElection({computer}){
                 Create New Election
               </Button>
             </form>
-          </div>
+          </Card>
           {creating && (<div>Creating The Election...</div>)}
         </Container>
     </div>)

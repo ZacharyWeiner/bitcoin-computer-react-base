@@ -14,7 +14,6 @@ import NonFungibleToken from './pages/NonFungibleToken.js'
 import Voteables from './pages/Voteables.js'
 import RockPaperScisors from './pages/RockPaperScisors.js'
 import VoteableDetails from './pages/VoteableDetails.js'
-import CreateElection from "./pages/_oldCreateElection.js"
 import Elections from "./pages/Elections.js"
 import ElectionResults from "./pages/ElectionResults.js"
 import * as Constants from './constants/LocalStorageConstants.js'
