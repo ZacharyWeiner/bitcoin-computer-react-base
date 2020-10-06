@@ -53,7 +53,7 @@ function MintElection({computer}){
             const pubKey = await computer.db.wallet.getPublicKey().toString()
             console.log("Public Key: " + pubKey)
             const ELECTION = await FileUtils.importFromPublic('/contracts/VOTE.js')
-            console.log("Created Election From File")
+            console.log(`Created Election From File \n ${ELECTION}`)
             let _election = await computer.new(ELECTION, [pubKey, pubKey, title, parseInt(votes, 10), can1name, can1PK, can2name, can2PK, can3name, can3PK])
             console.log("created Election on the blockchain. ")
             setElection(_election)
