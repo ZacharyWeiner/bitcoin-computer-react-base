@@ -50,7 +50,7 @@ function MintElection({computer}){
         setCreating(true)
         // try{
             e.preventDefault()
-            const pubKey = computer.db.wallet.getPublicKey().toString()
+            const pubKey = await computer.db.wallet.getPublicKey().toString()
             const ELECTION = await FileUtils.importFromPublic('/contracts/VOTE.js')
             let _election = await computer.new(ELECTION, [pubKey, pubKey, title, parseInt(votes, 10), can1name, can1PK, can2name, can2PK, can3name, can3PK])
             setElection(_election)
