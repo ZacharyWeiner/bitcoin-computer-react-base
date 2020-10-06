@@ -13,7 +13,7 @@ class Vote {
     }
   
     distribute(to) {
-      if (this.votes < 1) throw new Error()
+      if (this.votes < 1){ throw new Error("There are not enough votes to distribute")}
       if (this._owners[0].toString() !== this.distributor.toString()){
            throw new Error('You cannot send your vote to another person.')
       }
