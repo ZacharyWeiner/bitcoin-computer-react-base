@@ -51,7 +51,7 @@ function SendVote({ computer, votes }) {
   variant="outlined"
   margin="normal"
   required
-  fullWidth='true'
+  fullWidth
   align='center'
   id="sendToPK"
   label="Send 1 Vote To Public Key"

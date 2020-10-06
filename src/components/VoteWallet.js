@@ -61,7 +61,7 @@ function VoteWallet({votes, computer, publicKey, rev}){
     // }, [votes, publicKey, rev, computer])
 
     useEffect(()=>{
-      console.log(votes[0].distributor + " " + publicKey + "" + votes[0].can1PK)
+      console.log(votes[0].distributor + " " + publicKey + "" + votes[0].cand1PK)
     })
 
     const candidate1Click = async (e) =>{
