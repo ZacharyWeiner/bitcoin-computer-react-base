@@ -136,6 +136,9 @@ export default function App() {
             </Button> */}
             
              <VoteMenu classes={classes}  />
+             <Button variant="contained" color="default" href="/tic-tac-toe" className={classes.link} target="_blank">
+              Tic Tac Toe
+            </Button>
             
           </nav>
           {logged_in ? (

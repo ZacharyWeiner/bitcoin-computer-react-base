@@ -65,6 +65,7 @@ import { SignalCellularNull } from '@material-ui/icons'
     return(
     <div>
         <AddressDetails computer={computer} balance={balance} address={address} publicKey={publicKey} />
+        <div> {gameID} </div>
         <Grid container>
             <Grid item xs={12} md={4} lg={2}>
                 {revs.map((r) => {

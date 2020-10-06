@@ -12,7 +12,24 @@ class Vote {
       this.distributor = distributor
     }
   
-    
+    distribute(to) {
+      if (this.votes < 1){ throw new Error("There are not enough votes to distribute")}
+      if (this._owners[0].toString() !== this.distributor.toString()){
+           throw new Error('You cannot send your vote to another person.')
+      }
+      this.votes -= 1
+      return new Vote(to,
+                      this.distributor, 
+                      this.name, 
+                      1,
+                      this.can1name,
+                      this.cand1PK,
+                      this.can2name,
+                      this.cand2PK,
+                      this.can3name,
+                      this.cand3PK)
+    }
+  
     voteA(publicKey) {
       this._owners = [this.cand1PK]
     }
