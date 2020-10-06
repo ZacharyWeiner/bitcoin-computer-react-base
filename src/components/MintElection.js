@@ -51,10 +51,10 @@ function MintElection({computer}){
             e.preventDefault()
             const pubKey = computer.db.wallet.getPublicKey().toString()
             const ELECTION = await FileUtils.importFromPublic('/contracts/VOTE.js')
-            let _election = await computer.new(ELECTION, [pubKey, pubKey, title, parseInt(votes, 10), can1name,can1PK, can2name, can2PK, can3name, can3PK])
+            let _election = await computer.new(ELECTION, [pubKey, pubKey, title, parseInt(votes, 10), can1name, can1PK, can2name, can2PK, can3name, can3PK])
             setElection(_election)
-            console.log(election)
-            console.log("Successfully created " + election.votes + "for " + election.title  )
+            console.log(_election)
+            console.log("Successfully created " + _election.votes + "for " + _election.title  )
         }catch (err){
             if(err.message.startsWith('Insufficient balance in address')){
                 alert(`You need testnet coins to mint a token. To get free testnet coins open the your wallet.`)
