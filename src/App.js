@@ -16,6 +16,7 @@ import RockPaperScisors from './pages/RockPaperScisors.js'
 import VoteableDetails from './pages/VoteableDetails.js'
 import Elections from "./pages/Elections.js"
 import ElectionResults from "./pages/ElectionResults.js"
+import TicTacToe from './pages/TicTacToe.js'
 import * as Constants from './constants/LocalStorageConstants.js'
 import Login from './pages/Login'
 import CustomTokens from './pages/CustomTokens.js'
@@ -180,7 +181,9 @@ export default function App() {
           <Route path="/elections">
             <Elections />
           </Route>
-          
+          <Route path="/tic-tac-toe">
+            <TicTacToe />
+          </Route>
           <Route path="/tokens">
             <CustomTokens objects={[]} />
           </Route>

@@ -54,10 +54,11 @@ class RPS{
         if(this.complete === false && this.player1Move === null){
             if(this.hash(move + salt) !== this.encryptedMove){
                 this.winner = this.player2 
-                result = 'Player 2 Wins'
+                result = 'Player 2 Wins - Player 1 Tried to Cheat'
+            }else{
+                this.calculateWinner(this.player1Move, this.player2Move)
+                result = "The winner is: " + this.winner 
             }
-            this.calculateWinner(this.player1Move, this.player2Move)
-            result = "The winner is: " + this.winner 
         }
         return result
     }
