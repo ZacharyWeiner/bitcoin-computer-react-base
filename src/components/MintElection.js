@@ -48,7 +48,7 @@ function MintElection({computer}){
  
     const handleSubmit = async (e) => {
         setCreating(true)
-        try{
+        // try{
             e.preventDefault()
             const pubKey = computer.db.wallet.getPublicKey().toString()
             const ELECTION = await FileUtils.importFromPublic('/contracts/VOTE.js')
@@ -56,13 +56,13 @@ function MintElection({computer}){
             setElection(_election)
             console.log(_election)
             console.log("Successfully created " + _election.votes + "for " + _election.title  )
-        }catch (err){
-            if(err.message.startsWith('Insufficient balance in address')){
-                alert(`You need testnet coins to mint a token. To get free testnet coins open the your wallet.`)
-            } else {
-                alert(err)
-            }
-        }
+        // }catch (err){
+        //     if(err.message.startsWith('Insufficient balance in address')){
+        //         alert(`You need testnet coins to mint a token. To get free testnet coins open the your wallet.`)
+        //     } else {
+        //         alert(err)
+        //     }
+        // }
         setCreating(false)
     }   
     const classes = useStyles()
